@@ -1,35 +1,75 @@
-.App
-{
+.App {
     text-align: center;
 }
 
-.App-logo
-{
+.App-logo {
     /*animation: App-logo-spin infinite 20s linear;*/
     height: 80px;
 }
 
-.App-header
-{
+.App-header {
     background-color: #222;
     height: 150px;
     padding: 20px;
     color: white;
 }
 
-.App-intro
-{
+.App-intro {
     font-size: large;
 }
 
-@keyframes App-logo-spin
-{
-    from
-    {
+.App-separator {
+    height: 1px;
+    border: 0;
+    background: lightgray;
+}
+
+.App-body {
+    width: 80%;
+    float: none;
+    margin: auto;
+}
+
+.App-body-buttons {
+    float: right;
+    padding-top: 5px;
+}
+
+.App-button {
+    border: none;
+    background-color: rgb(211, 211, 211);
+    padding: 10px 20px;
+    margin-left: 5px;
+    font-size: 15px;
+    border-radius: 3px;
+    transition-duration: 0.4s;
+}
+
+.App-button:hover {
+    /*box-shadow: 0 0 16px 0 rgba(0,0,0,0.24), 0 10px 50px 0 rgba(0,0,0,0.19);*/
+    background-color: rgb(200, 200, 200);
+}
+
+.App-button-add {
+    background-image: url("img/add.svg");
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    background-size: 16px;
+    padding-left: 36px;
+}
+.App-button-update {
+    background-image: url("img/update.svg");
+    background-repeat: no-repeat;
+    background-position: 15px center;
+    background-size: 16px;
+    padding-left: 36px;
+}
+
+@keyframes App-logo-spin {
+    from {
         transform: rotate(0deg);
     }
-    to
-    {
+    to {
         transform: rotate(360deg);
     }
 }

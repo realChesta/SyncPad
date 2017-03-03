@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import logo from './syncpad-icon.svg';
+import logo from './img/syncpad-icon.svg';
+import add from './img/add.svg';
 import './App.css';
 
 class App extends Component {
@@ -11,9 +12,19 @@ class App extends Component {
                     <img src={logo} className="App-logo" alt="logo"/>
                     <h2>Welcome to SyncPad</h2>
                 </div>
-                <p className="App-intro">
-                    To get started, choose an existing session from the list or create a new one below.
-                </p>
+                <div className="App-body">
+                    <div>
+                        <p className="App-intro">
+                            To get started, choose an existing session from the list or create a new one below.
+                        </p>
+                        <hr className="App-separator"/>
+                    </div>
+                    <div className="App-body-buttons">
+                        <button className="App-button App-button-update">Refresh</button>
+                        <button className="App-button App-button-add">Create session</button>
+                    </div>
+
+                </div>
             </div>
         );
     }
