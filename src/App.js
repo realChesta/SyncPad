@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import logo from './img/syncpad-icon.svg';
-import add from './img/add.svg';
-import './App.css';
+import Loader from './Loader.js';
+import './style/App.css';
 
 class App extends Component {
+
     render()
     {
         return (
@@ -23,7 +24,7 @@ class App extends Component {
                         <button className="App-button App-button-update">Refresh</button>
                         <button className="App-button App-button-add">Create session</button>
                     </div>
-
+                    {!this.props.data && <Loader/>}
                 </div>
             </div>
         );

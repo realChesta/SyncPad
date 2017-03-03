@@ -33,6 +33,7 @@
 .App-body-buttons {
     float: right;
     padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .App-button {
@@ -51,14 +52,14 @@
 }
 
 .App-button-add {
-    background-image: url("img/add.svg");
+    background-image: url("../img/add.svg");
     background-repeat: no-repeat;
     background-position: 15px center;
     background-size: 16px;
     padding-left: 36px;
 }
 .App-button-update {
-    background-image: url("img/update.svg");
+    background-image: url("../img/update.svg");
     background-repeat: no-repeat;
     background-position: 15px center;
     background-size: 16px;
