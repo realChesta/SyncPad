@@ -1,0 +1,45 @@
+@import url("Button.css");
+
+.SD {
+    text-align: center;
+    clear: both;
+    padding-top: 5px;
+}
+
+.SD-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr:nth-child(even) {
+    background-color: rgb(230, 230, 230);
+}
+
+th {
+    color: white;
+    background-color: #333;
+}
+
+td, th {
+    text-align: left;
+    padding: 8px;
+}
+
+td {
+    width : 50%;
+}
+
+th.last-child {
+    width: 1px;
+    white-space: nowrap;
+}
+
+td.last-child {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.c-button {
+    padding: 5px 20px;
+    float: right;
+}

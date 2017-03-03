@@ -3,9 +3,24 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
-var app = <App/>;
+var data = [
+    {
+        name: "Krek",
+        users: 5,
+        id: "test"
+    }
+];
 
 ReactDOM.render(
-    app,
+    <App tableData={data}/>,
     document.getElementById('root')
 );
+
+// setTimeout(function()
+// {
+//     ReactDOM.render(
+//         <App tableData={{ test: "Hallo" }}/>,
+//         document.getElementById('root')
+//     );
+//     console.log("timer expired");
+// }, 3000);

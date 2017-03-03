@@ -1,12 +1,24 @@
 import React, {Component} from 'react';
 import logo from './img/syncpad-icon.svg';
-import Loader from './Loader.js';
+
 import './style/App.css';
+
+import Loader from './Loader.js';
+import SessionDisplayer from './SessionDisplayer.js';
 
 class App extends Component {
 
     render()
     {
+        if (this.props.tableData)
+        {
+            var comp = <SessionDisplayer data={this.props.tableData}/>;
+        }
+        else
+        {
+            var comp = <Loader/>;
+        }
+
         return (
             <div className="App">
                 <div className="App-header">
@@ -21,10 +33,10 @@ class App extends Component {
                         <hr className="App-separator"/>
                     </div>
                     <div className="App-body-buttons">
-                        <button className="App-button App-button-update">Refresh</button>
-                        <button className="App-button App-button-add">Create session</button>
+                        <button className="g-button App-button-update">Refresh</button>
+                        <button className="g-button App-button-add">Create session</button>
                     </div>
-                    {!this.props.data && <Loader/>}
+                    {comp}
                 </div>
             </div>
         );

@@ -1,3 +1,5 @@
+@import url("Button.css");
+
 .App {
     text-align: center;
 }
@@ -34,21 +36,6 @@
     float: right;
     padding-top: 5px;
     padding-bottom: 5px;
-}
-
-.App-button {
-    border: none;
-    background-color: rgb(211, 211, 211);
-    padding: 10px 20px;
-    margin-left: 5px;
-    font-size: 15px;
-    border-radius: 3px;
-    transition-duration: 0.4s;
-}
-
-.App-button:hover {
-    /*box-shadow: 0 0 16px 0 rgba(0,0,0,0.24), 0 10px 50px 0 rgba(0,0,0,0.19);*/
-    background-color: rgb(200, 200, 200);
 }
 
 .App-button-add {
