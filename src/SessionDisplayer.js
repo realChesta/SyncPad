@@ -13,13 +13,14 @@ class SessionDisplayer extends Component {
 
         if (this.props.data)
         {
+            let ch = this.props.connectHandler;
             rows = this.props.data.map(function(d)
             {
                 return (
                     <tr>
                         <td>{d.name}</td>
                         <td>{d.users}</td>
-                        <td><button id={d.id} className="g-button c-button">Connect</button></td>
+                        <td><button id={d.id} onClick={ch} className="g-button c-button">Connect</button></td>
                     </tr>
                 );
             });

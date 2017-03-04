@@ -12,7 +12,11 @@ class App extends Component {
     {
         if (this.props.tableData)
         {
-            var comp = <SessionDisplayer data={this.props.tableData}/>;
+            var comp =
+                <SessionDisplayer
+                    data={this.props.tableData}
+                    connectHandler={this.props.connectHandler}
+                />;
         }
         else
         {
@@ -33,8 +37,10 @@ class App extends Component {
                         <hr className="App-separator"/>
                     </div>
                     <div className="App-body-buttons">
-                        <button className="g-button App-button-update">Refresh</button>
-                        <button className="g-button App-button-add">Create session</button>
+                        <button className="g-button App-button-update" onClick={this.props.refreshHandler}>Refresh
+                        </button>
+                        <button className="g-button App-button-add" onClick={this.props.createHandler}>Create session
+                        </button>
                     </div>
                     {comp}
                 </div>
