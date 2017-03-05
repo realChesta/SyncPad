@@ -4,11 +4,13 @@
     text-align: center;
     clear: both;
     padding-top: 5px;
+    opacity: inherit;
 }
 
 .SD-table {
     border-collapse: collapse;
     width: 100%;
+    opacity: inherit;
 }
 
 tr:nth-child(even) {

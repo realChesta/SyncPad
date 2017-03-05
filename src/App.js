@@ -5,6 +5,7 @@ import './style/App.css';
 
 import Loader from './Loader.js';
 import SessionDisplayer from './SessionDisplayer.js';
+import Transition from './Transition.js';
 
 class App extends Component {
 
@@ -14,13 +15,14 @@ class App extends Component {
         {
             var comp =
                 <SessionDisplayer
+                    key="sd"
                     data={this.props.tableData}
                     connectHandler={this.props.connectHandler}
                 />;
         }
         else
         {
-            var comp = <Loader/>;
+            var comp = <Loader key="loader"/>;
         }
 
         return (
@@ -42,7 +44,9 @@ class App extends Component {
                         <button className="g-button App-button-add" onClick={this.props.createHandler}>Create session
                         </button>
                     </div>
-                    {comp}
+                    <Transition>
+                        {comp}
+                    </Transition>
                 </div>
             </div>
         );

@@ -23,6 +23,14 @@ var data = [
     }
 ];
 
+var data2 = [
+    {
+        name: "Krek",
+        users: 5,
+        id: "test"
+    }
+];
+
 function refreshData()
 {
     doMain();
@@ -56,11 +64,10 @@ function doMain()
                 refreshHandler={refreshData}
                 createHandler={createSession}
                 connectHandler={connectClick}
-                tableData={data}
+                tableData={Math.random() < 0.5 ? data : data2}
             />,
             document.getElementById('root')
         );
-        console.log("timer expired");
     }, 3000);
 }
 
