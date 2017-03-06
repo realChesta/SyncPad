@@ -1,0 +1,10 @@
+{
+  "name": "syncpad-server",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "http": "0.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {}
+}
