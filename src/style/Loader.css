@@ -3,6 +3,8 @@
     float: none;
     margin: auto;
     clear: both;
+    position: absolute;
+    left: 50%;
 }
 
 .Loader-text{
@@ -33,6 +35,7 @@ body {
 
 .loader {
     position: relative;
+    left: -50%;
     margin: 0 auto;
     width: 80px;
 }
