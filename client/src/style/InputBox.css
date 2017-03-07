@@ -1,0 +1,71 @@
+@import url("Button.css");
+
+.IB {
+    position: absolute;
+    width: 50%;
+    clear: both;
+    margin: 16px auto;
+    background-color: rgb(230, 230, 230);
+    overflow: auto;
+    border-radius: 3px;
+    left: 25%;
+}
+
+.IB-title {
+    position: relative;
+    background-color: #333;
+    width: 100%;
+    padding: 0;
+    overflow: auto;
+}
+
+.IB-title-span {
+    margin: 5px;
+    color: white;
+    background-color: #333;
+    float: left;
+}
+
+.IB-close {
+    background-image: url("../img/cross.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px;
+
+    background-color: transparent;
+    border: none;
+
+    padding: 10px 10px;
+    margin: 5px;
+    float: right;
+}
+
+.IB-body {
+    position: relative;
+    margin: 16px auto 0 auto;
+    padding: 5px;
+    width: 90%;
+    overflow: auto;
+}
+
+.IB-body-input {
+    width: 100%;
+    margin: 0;
+    border: solid 1px rgb(160, 160, 160);
+    /*-webkit-border-radius: 3px;*/
+    /*-moz-border-radius:3px;*/
+    /*border-radius: 3px;*/
+}
+
+.IB-body-text {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.IB-acceptButton {
+    padding: 5px 20px;
+    float: right;
+    margin: 10px -1px;
+}

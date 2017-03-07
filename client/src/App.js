@@ -6,12 +6,44 @@ import './style/App.css';
 import Loader from './Loader.js';
 import SessionDisplayer from './SessionDisplayer.js';
 import Transition from './Transition.js';
+import InputBox from './InputBox.js';
 
 class App extends Component {
 
+    constructor(props)
+    {
+        super(props);
+
+        this.state = {
+            input: false
+        };
+    }
+
+    handleCreate = (e) =>
+    {
+        this.setState({input: true});
+    };
+
+    handleDone = (sname) =>
+    {
+        this.setState({input: false});
+        console.log("session name: " + sname);
+    };
+
     render()
     {
-        if (this.props.tableData)
+        if (this.state.input)
+        {
+            var comp =
+                <InputBox
+                    key="ib"
+                    title="Create session"
+                    text="Enter your desired session name below:"
+                    action="Confirm"
+                    onDone={this.handleDone}
+                />;
+        }
+        else if (this.props.tableData)
         {
             var comp =
                 <SessionDisplayer
@@ -39,9 +71,9 @@ class App extends Component {
                         <hr className="App-separator"/>
                     </div>
                     <div className="App-body-buttons">
-                        <button className="g-button App-button-update" onClick={this.props.refreshHandler}>Refresh
+                        <button disabled={this.state.input} className="g-button App-button-update" onClick={this.props.refreshHandler}>Refresh
                         </button>
-                        <button className="g-button App-button-add" onClick={this.props.createHandler}>Create session
+                        <button disabled={this.state.input} className="g-button App-button-add" onClick={this.handleCreate}>Create session
                         </button>
                     </div>
                     <Transition>
