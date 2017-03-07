@@ -21,7 +21,7 @@ class InputBox extends Component {
 
     handleKeyPress = (e) =>
     {
-        if (e.key == 'Enter')
+        if (e.key === 'Enter')
         {
             this.props.onDone(this.state.sessionName);
         }
