@@ -43,8 +43,7 @@
 .IB-body {
     position: relative;
     margin: 16px auto 0 auto;
-    padding: 5px;
-    width: 90%;
+    padding: 16px;
     overflow: auto;
 }
 
@@ -67,5 +66,5 @@
 .IB-acceptButton {
     padding: 5px 20px;
     float: right;
-    margin: 10px -1px;
+    margin: 10px -1px 0 0;
 }

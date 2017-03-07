@@ -19,11 +19,15 @@ class InputBox extends Component {
         this.setState({ sessionName: e.target.value });
     };
 
-    handleKeyPress = (e) =>
+    handleKeyUp = (e) =>
     {
-        if (e.key === 'Enter')
+        if ((e.keyCode == 13) && this.state.sessionName)
         {
             this.props.onDone(this.state.sessionName);
+        }
+        else if (e.keyCode == 27)
+        {
+            this.props.onDone();
         }
     };
 
@@ -47,7 +51,7 @@ class InputBox extends Component {
                     </div>
                     <div className="IB-body">
                         <p className="IB-body-text">{this.props.text}</p>
-                        <input onChange={this.handleChange} onKeyPress={this.handleKeyPress} className="IB-body-input"/>
+                        <input onChange={this.handleChange} onKeyUp={this.handleKeyUp} className="IB-body-input"/>
                         <button disabled={!this.state.sessionName} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
                     </div>
             </div>
