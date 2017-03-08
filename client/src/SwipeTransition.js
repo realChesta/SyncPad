@@ -10,7 +10,7 @@ class SwipeTransition extends Component {
     {
         return (
             <TransitionMotion
-                style={{ width: "100%", height: "100%"}}
+                style={{ position: "absolute", width: "100%", height: "100%"}}
                 styles={
                     this.props.children ? [
                             { key: this.props.children.key, style: this.getStyles(), data: this.props.children }
@@ -20,10 +20,11 @@ class SwipeTransition extends Component {
                 willEnter={this.willEnter}
             >
                 { int =>
-                    <div style={{ clear: "both", width: "100%", height: "100%"}}>
+                    <div style={{ position: "absolute", clear: "both", width: "100%", height: "100%"}}>
                         {int.map(({ key, style, data }) =>
                             <div key={`${key}-transition`} style={
                                 {
+                                    position: "absolute",
                                     width: "100%",
                                     height: "100%",
                                     opacity: style.opacity,

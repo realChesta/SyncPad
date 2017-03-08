@@ -1,13 +1,12 @@
 @import url('./Button.css');
 
 html, body {
-    width:  100%;
+    width: 100%;
     height: 100%;
     margin: 0;
 }
 
 .EA {
-    position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
@@ -55,18 +54,38 @@ html, body {
     clear: both;
     position: relative;
     background-color: #e6e6e6;
-    height: auto;
+
+    display: flex;
+    flex-flow: row;
 }
 
 .EA-body-editor {
-    width: 100%;
-    height: 100%;
+    flex: 1 1 auto;
+    padding: 20px;
 }
+
 .EA-body-editor-textbox {
     width: 100%;
     height: 100%;
+    resize: none;
+    border-radius: 3px;
+    border: solid 1px #aaa;
+    box-sizing: border-box;
 }
 
 .EA-body-sidebar {
+    flex: 0 1 auto;
+    width: 150px;
+    /*margin: 10px;*/
+    background-color: white;
+    margin: 20px 20px 20px 0;
+    border-radius: 3px;
+    border: solid 1px #aaa;
+}
 
+.EA-body-sidebar-list {
+}
+
+.EA-body-sidebar-list-item {
+    text-align: center;
 }
