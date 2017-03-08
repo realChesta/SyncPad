@@ -21,11 +21,11 @@ class InputBox extends Component {
 
     handleKeyUp = (e) =>
     {
-        if ((e.keyCode == 13) && this.state.sessionName)
+        if ((e.keyCode === 13) && this.state.sessionName)
         {
             this.props.onDone(this.state.sessionName);
         }
-        else if (e.keyCode == 27)
+        else if (e.keyCode === 27)
         {
             this.props.onDone();
         }

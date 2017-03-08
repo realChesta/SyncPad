@@ -1,0 +1,41 @@
+@import url('./Button.css');
+
+.EditingApp {
+
+}
+
+.EditingApp-head {
+    background-color: #222;
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.EditingApp-head-logo {
+    float: left;
+    overflow: auto;
+    width: 10%;
+}
+
+.EditingApp-head-logo-image {
+    height: 40px;
+    margin-top: 4px;
+    float: left;
+}
+
+.EditingApp-head-logo-text {
+    margin-left: 5px;
+    color: white;
+}
+
+.EditingApp-head-title {
+    text-align: center;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.EditingApp-head-end {
+    float: right;
+    width: 10%;
+}

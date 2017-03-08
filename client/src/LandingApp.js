@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import logo from './img/syncpad-icon.svg';
 
-import './style/App.css';
+import './style/LandingApp.css';
 
 import Loader from './Loader.js';
 import SessionDisplayer from './SessionDisplayer.js';
-import Transition from './Transition.js';
+import FadeTransition from './FadeTransition.js';
 import InputBox from './InputBox.js';
 
-class App extends Component {
+class LandingApp extends Component {
 
     constructor(props)
     {
@@ -21,20 +21,27 @@ class App extends Component {
 
     handleCreate = (e) =>
     {
-        this.setState({input: true});
+        this.setState({ input: true });
     };
 
     handleDone = (sname) =>
     {
-        this.setState({input: false});
-        console.log("session name: " + sname);
+        this.setState({ input: false });
+        if (sname)
+        {
+
+            console.log("session name: " + sname);
+            this.props.createHandler(sname);
+        }
     };
 
     render()
     {
+        let comp;
+
         if (this.state.input)
         {
-            var comp =
+            comp =
                 <InputBox
                     key="ib"
                     title="Create session"
@@ -45,7 +52,7 @@ class App extends Component {
         }
         else if (this.props.tableData)
         {
-            var comp =
+            comp =
                 <SessionDisplayer
                     key="sd"
                     data={this.props.tableData}
@@ -54,7 +61,7 @@ class App extends Component {
         }
         else
         {
-            var comp = <Loader key="loader"/>;
+            comp = <Loader key="loader"/>;
         }
 
         return (
@@ -71,18 +78,26 @@ class App extends Component {
                         <hr className="App-separator"/>
                     </div>
                     <div className="App-body-buttons">
-                        <button disabled={this.state.input} className="g-button App-button-update" onClick={this.props.refreshHandler}>Refresh
+                        <button
+                            disabled={this.state.input}
+                            className="g-button App-button-update"
+                            onClick={this.props.refreshHandler}>
+                            Refresh
                         </button>
-                        <button disabled={this.state.input} className="g-button App-button-add" onClick={this.handleCreate}>Create session
+                        <button
+                            disabled={this.state.input}
+                            className="g-button App-button-add"
+                            onClick={this.handleCreate}>
+                            Create session
                         </button>
                     </div>
-                    <Transition>
+                    <FadeTransition>
                         {comp}
-                    </Transition>
+                    </FadeTransition>
                 </div>
             </div>
         );
     }
 }
 
-export default App;
+export default LandingApp;

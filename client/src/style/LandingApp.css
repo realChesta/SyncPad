@@ -2,10 +2,13 @@
 
 .App {
     text-align: center;
+    position: absolute;
+    width: 100%;
+    margin: 0;
 }
 
 .App-logo {
-    /*animation: App-logo-spin infinite 20s linear;*/
+    /*animation: LandingApp-logo-spin infinite 20s linear;*/
     height: 80px;
 }
 
@@ -14,6 +17,7 @@
     height: 150px;
     padding: 20px;
     color: white;
+    position: relative;
 }
 
 .App-intro {
@@ -30,6 +34,7 @@
     width: 80%;
     float: none;
     margin: auto;
+    osition: relative;
 }
 
 .App-body-buttons {

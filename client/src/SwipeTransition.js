@@ -1,11 +1,11 @@
 /**
- * Created by Kyrill on 05.03.2017.
+ * Created by Kyrill on 07.03.2017.
  */
 
 import React, {Component} from 'react';
 import {spring, TransitionMotion} from 'react-motion';
 
-class Transition extends Component {
+class SwipeTransition extends Component {
     render()
     {
         return (
@@ -24,7 +24,7 @@ class Transition extends Component {
                             <div key={`${key}-transition`} style={
                                 {
                                     opacity: style.opacity,
-                                    transform: `scale(${style.scale})`,
+                                    transform: `translateX(${style.x}%)`,
                                     clear: "both"
                                 }}>
                                 {data}
@@ -40,7 +40,7 @@ class Transition extends Component {
     {
         return {
             opacity: 0,
-            scale: 0.98
+            x: 100
         };
     }
 
@@ -48,7 +48,7 @@ class Transition extends Component {
     {
         return {
             opacity: spring(0),
-            scale: spring(1.02)
+            x: spring(-100)
         };
     }
 
@@ -56,9 +56,9 @@ class Transition extends Component {
     {
         return {
             opacity: spring(1),
-            scale: spring(1)
+            x: spring(0)
         };
     }
 }
 
-export default Transition;
+export default SwipeTransition;
