@@ -1,41 +1,72 @@
 @import url('./Button.css');
 
-.EditingApp {
-
+html, body {
+    width:  100%;
+    height: 100%;
+    margin: 0;
 }
 
-.EditingApp-head {
+.EA {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+.EA-head {
+    flex: 0 1 auto;
     background-color: #222;
     width: 100%;
-    display: flex;
-    flex-flow: row wrap;
+    position: relative;
 }
 
-.EditingApp-head-logo {
+.EA-head-logo {
     float: left;
     overflow: auto;
     width: 10%;
 }
 
-.EditingApp-head-logo-image {
+.EA-head-logo-image {
     height: 40px;
     margin-top: 4px;
     float: left;
 }
 
-.EditingApp-head-logo-text {
+.EA-head-logo-text {
     margin-left: 5px;
     color: white;
 }
 
-.EditingApp-head-title {
+.EA-head-title {
     text-align: center;
     color: white;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 10%;
 }
 
-.EditingApp-head-end {
+.EA-head-end {
     float: right;
     width: 10%;
+}
+
+.EA-body {
+    flex: 1 1 auto;
+    clear: both;
+    position: relative;
+    background-color: #e6e6e6;
+    height: auto;
+}
+
+.EA-body-editor {
+    width: 100%;
+    height: 100%;
+}
+.EA-body-editor-textbox {
+    width: 100%;
+    height: 100%;
+}
+
+.EA-body-sidebar {
+
 }

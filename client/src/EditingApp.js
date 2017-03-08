@@ -15,17 +15,24 @@ class EditingApp extends Component {
     render()
     {
         return (
-            <div className="EditingApp">
-                <div className="EditingApp-head">
-                    <div className="EditingApp-head-logo">
-                        <img src={logo} className="EditingApp-head-logo-image" alt="logo"/>
-                        <p className="EditingApp-head-logo-text">SyncPad</p>
+            <div className="EA">
+                <div className="EA-head">
+                    <div className="EA-head-logo">
+                        <img src={logo} className="EA-head-logo-image" alt="logo"/>
+                        <p className="EA-head-logo-text">SyncPad</p>
                     </div>
-                    <p className="EditingApp-head-title">Title</p>
-                    <div className="EditingApp-head-end"/>
+                    <p className="EA-head-title">Title</p>
+                    <div className="EA-head-end"/>
                 </div>
-                <div>
-                    <p style={{ textAlign: "center" }}>center</p>
+                <div className="EA-body">
+                    <div className="EA-body-editor">
+                        <textarea className="EA-body-editor-textbox"/>
+                    </div>
+                    <div className="EA-body-sidebar">
+                        <ul>
+                            
+                        </ul>
+                    </div>
                 </div>
             </div>
         );

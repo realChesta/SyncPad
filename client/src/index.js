@@ -43,7 +43,7 @@ function createSession(sname)
     console.warn("create session hasn't been implemented yet");
     ReactDOM.render(
         <SwipeTransition>
-            <EditingApp key="EA"/>
+            <EditingApp key="EA"/>,
         </SwipeTransition>,
         document.getElementById('root')
     );
