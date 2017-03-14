@@ -4,8 +4,9 @@ import ReactDOM from 'react-dom';
 import LandingApp from './LandingApp.js';
 import SwipeTransition from './SwipeTransition.js';
 import EditingApp from './EditingApp.js';
+import SessionClient from './SessionClient.js';
 
-import './index.css';
+import './style/index.css';
 
 const rp = require('request-promise');
 
@@ -42,6 +43,7 @@ function refreshData()
     rp('http://172.20.10.6/getSessions')
         .then(function (body)
         {
+            console.log(body);
             let data = JSON.parse(body);
 
             console.log("got answer");
@@ -52,8 +54,8 @@ function refreshData()
                     <LandingApp
                         key="welcomeApp"
                         refreshHandler={refreshData}
-                        createHandler={createSession}
-                        connectHandler={connectClick}
+                        createHandler={joinSession}
+                        connectHandler={joinSession}
                         tableData={data}
                     />
                 </SwipeTransition>,
@@ -62,24 +64,24 @@ function refreshData()
         })
         .catch(function(error)
         {
-            console.error(error);
+            console.error("Failed to get session list! " + error.message);
         });
 }
 
-function createSession(sname)
+function joinSession(sname)
 {
-    console.warn("create session hasn't been implemented yet");
+    let sc = new SessionClient("krekboy", sname);
+    sc.connect();
+}
+
+function startEditor(sClient)
+{
     ReactDOM.render(
         <SwipeTransition>
-            <EditingApp key="EA" title={sname}/>
+            <EditingApp key="EA" title={sClient.name}/>
         </SwipeTransition>,
         document.getElementById('root')
     );
-}
-
-function connectClick()
-{
-    console.warn("connecting hasn't been implemented yet");
 }
 
 ReactDOM.render(
@@ -87,8 +89,8 @@ ReactDOM.render(
         <LandingApp
             key="welcomeApp"
             refreshHandler={refreshData}
-            createHandler={createSession}
-            connectHandler={connectClick}
+            createHandler={joinSession}
+            connectHandler={joinSession}
         />
     </SwipeTransition>,
     document.getElementById('root')

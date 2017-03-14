@@ -17,11 +17,11 @@ class SessionDisplayer extends Component {
             rows = this.props.data.map(function (d)
             {
                 return (
-                    <tr key={d.id}>
+                    <tr key={d.name}>
                         <td>{d.name}</td>
                         <td>{d.users}</td>
                         <td>
-                            <button id={d.id} onClick={ch} className="g-button c-button">Connect</button>
+                            <button id={d.name} onClick={ch(d.name)} className="g-button c-button">Connect</button>
                         </td>
                     </tr>
                 );
