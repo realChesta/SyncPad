@@ -7,6 +7,7 @@ import Loader from './Loader.js';
 import SessionDisplayer from './SessionDisplayer.js';
 import FadeTransition from './FadeTransition.js';
 import InputBox from './InputBox.js';
+import ErrorBox from './ErrorBox.js';
 
 class LandingApp extends Component {
 
@@ -43,18 +44,27 @@ class LandingApp extends Component {
         {
             comp =
                 <InputBox
-                    key="ib"
+                    key="inputBox"
                     title="Create session"
                     text="Enter your desired session name below:"
                     action="Confirm"
                     onDone={this.handleDone}
                 />;
         }
+        else if (this.props.error)
+        {
+            comp =
+                <ErrorBox
+                    key="errBox"
+                    title={this.props.error.title}
+                    message={this.props.error.message}
+                />;
+        }
         else if (this.props.tableData)
         {
             comp =
                 <SessionDisplayer
-                    key="sd"
+                    key="sessDisplayer"
                     data={this.props.tableData}
                     connectHandler={this.props.connectHandler}
                 />;

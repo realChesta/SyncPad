@@ -40,6 +40,18 @@ var data2 = [
 
 function refreshData()
 {
+    ReactDOM.render(
+        <SwipeTransition>
+            <LandingApp
+                key="welcomeApp"
+                refreshHandler={refreshData}
+                createHandler={joinSession}
+                connectHandler={joinSession}
+            />
+        </SwipeTransition>,
+        document.getElementById('root')
+    );
+
     rp('http://172.20.10.6/getSessions')
         .then(function (body)
         {
@@ -62,9 +74,22 @@ function refreshData()
                 document.getElementById('root')
             );
         })
-        .catch(function(error)
+        .catch(function (error)
         {
             console.error("Failed to get session list! " + error.message);
+
+            ReactDOM.render(
+                <SwipeTransition>
+                    <LandingApp
+                        key="welcomeApp"
+                        refreshHandler={refreshData}
+                        createHandler={joinSession}
+                        connectHandler={joinSession}
+                        error={{ title: "Something went wrong", message: "Could not get session list!", error: error }}
+                    />
+                </SwipeTransition>,
+                document.getElementById('root')
+            );
         });
 }
 

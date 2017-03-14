@@ -1,18 +1,41 @@
 @import url("Button.css");
 
-.ErrorBox {
+.ErrorBox-outer {
     position: absolute;
-    width: 50%;
-    clear: both;
-    margin: 16px auto;
-    background-color: rgba(255,0,0,0.1);
-    overflow: auto;
-    border-radius: 3px;
-    left: 25%;
+    left: 50%;
 }
 
-.ErrorBox.text {
+.ErrorBox-inner {
+    clear: both;
+    margin: 16px auto;
+    background-color: rgba(255, 0, 0, 0.5);
+    overflow: auto;
+    border-radius: 8px;
+    color: white;
+    position: relative;
+    left: -50%;
+}
+
+.ErrorBox-sadface {
+    float: left;
+    font-size: 60px;
+    margin: 16px 20px;
+}
+
+.ErrorBox-content {
+    float: left;
+    margin: 20px 20px 20px auto;
+}
+
+.ErrorBox-title {
+    text-align: left;
+    margin: auto;
+    font-size: x-large;
+}
+
+.ErrorBox-text {
+    text-align: left;
     font-size: large;
-    text-align: center;
-    color: red;
+    margin: auto;
+    margin-top: 15px;
 }
