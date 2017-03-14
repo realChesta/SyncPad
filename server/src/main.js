@@ -1,16 +1,8 @@
-var socketIO = require('socket.io');
 var express = require('express');
-var http = require('http');
 var app = express();
+var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-function generateGUID() {
-    let s4 = function () {
-        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-    };
-
-    return (s4() + s4() + "-" + s4() + "-4" + s4().substr(0, 3) + "-" + s4() + "-" + s4() + s4() + s4()).toLowerCase();
-};
 
 var sessionList = {
     "Krek1": {session: "Krek1", content: {}, users: ["Krekosaurus", "Adolf", "Merkel"]},
@@ -66,7 +58,8 @@ app.get('/gitGud', function (req, res) {
 app.get('/getSessions', function (req, res) {
     res.send(JSON.stringify(getInfo()));
 });
-app.listen(80, function () {
+
+http.listen(80, function () {
     console.log("Krekosaurus");
 });
 
@@ -95,5 +88,5 @@ io.on('connection', function (socket) {
 });
 
 io.on('auth', function (socket) {
-
+    console.log('auth');
 });
