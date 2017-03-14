@@ -52,7 +52,10 @@ function refreshData()
         document.getElementById('root')
     );
 
-    rp('http://172.20.10.6/getSessions')
+    rp({
+        url: 'http://localhost/getSessions',
+        timeout: 5000
+    })
         .then(function (body)
         {
             console.log(body);

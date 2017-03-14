@@ -14,14 +14,21 @@ class SessionClient {
 
     connect()
     {
-        this.socket = io('http://172.20.10.6/');
-        this.socket.on('connect', this.onConnect);
-        this.socket.on('connect_failed', this.onConnectFailed);
-        this.socket.on('error', this.onSocketError);
-        this.socket.on('disconnect', this.onDisconnect);
+        try
+        {
+            this.socket = io.connect('http://localhost/');
+            this.socket.on('connect', this.onConnect);
+            this.socket.on('connect_failed', this.onConnectFailed);
+            this.socket.on('error', this.onSocketError);
+            this.socket.on('disconnect', this.onDisconnect);
+        }
+        catch (error)
+        {
+            console.log('could not connect: ' + error);
+        }
     };
 
-    onConnect()
+    onConnect = () =>
     {
         console.log('connected');
         this.socket.emit('auth', {name: this.name, session: this.session});
