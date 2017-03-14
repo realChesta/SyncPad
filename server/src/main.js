@@ -1,5 +1,8 @@
 var socketIO = require('socket.io');
 var express = require('express');
+var http = require('http');
+var app = express();
+var io = require('socket.io')(http);
 
 function generateGUID() {
     let s4 = function () {
@@ -10,7 +13,9 @@ function generateGUID() {
 };
 
 var sessionList = {
-    id1: {name: "Krek1", content: {}, users: {}}
+    id1: {name: "Krek1", content: {}, users: ["Krekosaurus", "Adolf", "Merkel"]},
+    id2: {name: "Sample2", content: {}, users: ["Loner"]},
+    id3: {name: "Max Muster", content: {}, users: ["Fax Fuster","Dax Duster"]}
 };
 
 function getInfo() {
@@ -28,8 +33,6 @@ function getInfo() {
     return listSessions;
 }
 
-var app = express();
-
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -45,7 +48,26 @@ app.get('/gitGud', function (req, res) {
 app.get('/getSessions', function (req, res) {
     res.send(JSON.stringify(getInfo()));
 });
-
 app.listen(80, function () {
     console.log("Krekosaurus");
 });
+
+io.on('connection', function(socket){
+    console.log('a user connected');
+});
+
+io.on('connection', function(socket){
+    console.log('a user connected');
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+    });
+});
+
+io.on('auth', function(socket) {
+    socket.on('auth', function(usr){
+        if (usr.name =)
+    })
+})
+
+io.on('join', function(socket) {
+})
