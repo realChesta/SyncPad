@@ -7,6 +7,10 @@ import EditingApp from './EditingApp.js';
 
 import './index.css';
 
+const rp = require('request-promise');
+
+//TODO: implement error display
+
 var data = [
     {
         name: "Krek",
@@ -35,7 +39,31 @@ var data2 = [
 
 function refreshData()
 {
-    doMain();
+    rp('http://172.20.10.6/getSessions')
+        .then(function (body)
+        {
+            let data = JSON.parse(body);
+
+            console.log("got answer");
+            console.log(data);
+
+            ReactDOM.render(
+                <SwipeTransition>
+                    <LandingApp
+                        key="welcomeApp"
+                        refreshHandler={refreshData}
+                        createHandler={createSession}
+                        connectHandler={connectClick}
+                        tableData={data}
+                    />
+                </SwipeTransition>,
+                document.getElementById('root')
+            );
+        })
+        .catch(function(error)
+        {
+            console.error(error);
+        });
 }
 
 function createSession(sname)
@@ -54,36 +82,17 @@ function connectClick()
     console.warn("connecting hasn't been implemented yet");
 }
 
-function doMain()
-{
-    ReactDOM.render(
-        <SwipeTransition>
-            <LandingApp
-                key="welcomeApp"
-                refreshHandler={refreshData}
-                createHandler={createSession}
-                connectHandler={connectClick}
-            />
-        </SwipeTransition>,
-        document.getElementById('root')
-    );
+ReactDOM.render(
+    <SwipeTransition>
+        <LandingApp
+            key="welcomeApp"
+            refreshHandler={refreshData}
+            createHandler={createSession}
+            connectHandler={connectClick}
+        />
+    </SwipeTransition>,
+    document.getElementById('root')
+);
 
-    setTimeout(function ()
-    {
-        ReactDOM.render(
-            <SwipeTransition>
-                <LandingApp
-                    key="welcomeApp"
-                    refreshHandler={refreshData}
-                    createHandler={createSession}
-                    connectHandler={connectClick}
-                    tableData={Math.random() < 0.5 ? data : data2}
-                />
-            </SwipeTransition>,
-            document.getElementById('root')
-        );
-    }, 3000);
-}
-
-doMain();
+refreshData();
 //createSession();
