@@ -4,8 +4,13 @@ import ReactDOM from 'react-dom';
 import LandingApp from './LandingApp.js';
 import SwipeTransition from './SwipeTransition.js';
 import EditingApp from './EditingApp.js';
+import SessionClient from './SessionClient.js';
 
-import './index.css';
+import './style/index.css';
+
+const rp = require('request-promise');
+
+//TODO: implement error display
 
 var data = [
     {
@@ -35,55 +40,86 @@ var data2 = [
 
 function refreshData()
 {
-    doMain();
-}
-
-function createSession(sname)
-{
-    console.warn("create session hasn't been implemented yet");
-    ReactDOM.render(
-        <SwipeTransition>
-            <EditingApp key="EA" title={sname}/>
-        </SwipeTransition>,
-        document.getElementById('root')
-    );
-}
-
-function connectClick()
-{
-    console.warn("connecting hasn't been implemented yet");
-}
-
-function doMain()
-{
     ReactDOM.render(
         <SwipeTransition>
             <LandingApp
                 key="welcomeApp"
                 refreshHandler={refreshData}
-                createHandler={createSession}
-                connectHandler={connectClick}
+                createHandler={joinSession}
+                connectHandler={joinSession}
             />
         </SwipeTransition>,
         document.getElementById('root')
     );
 
-    setTimeout(function ()
-    {
-        ReactDOM.render(
-            <SwipeTransition>
-                <LandingApp
-                    key="welcomeApp"
-                    refreshHandler={refreshData}
-                    createHandler={createSession}
-                    connectHandler={connectClick}
-                    tableData={Math.random() < 0.5 ? data : data2}
-                />
-            </SwipeTransition>,
-            document.getElementById('root')
-        );
-    }, 3000);
+    rp('http://172.20.10.6/getSessions')
+        .then(function (body)
+        {
+            console.log(body);
+            let data = JSON.parse(body);
+
+            console.log("got answer");
+            console.log(data);
+
+            ReactDOM.render(
+                <SwipeTransition>
+                    <LandingApp
+                        key="welcomeApp"
+                        refreshHandler={refreshData}
+                        createHandler={joinSession}
+                        connectHandler={joinSession}
+                        tableData={data}
+                    />
+                </SwipeTransition>,
+                document.getElementById('root')
+            );
+        })
+        .catch(function (error)
+        {
+            console.error("Failed to get session list! " + error.message);
+
+            ReactDOM.render(
+                <SwipeTransition>
+                    <LandingApp
+                        key="welcomeApp"
+                        refreshHandler={refreshData}
+                        createHandler={joinSession}
+                        connectHandler={joinSession}
+                        error={{ title: "Something went wrong", message: "Could not get session list!", error: error }}
+                    />
+                </SwipeTransition>,
+                document.getElementById('root')
+            );
+        });
 }
 
-doMain();
+function joinSession(sname)
+{
+    let sc = new SessionClient("krekboy", sname);
+    sc.connect();
+}
+
+function startEditor(sClient)
+{
+    ReactDOM.render(
+        <SwipeTransition>
+            <EditingApp key="EA" title={sClient.name}/>
+        </SwipeTransition>,
+        document.getElementById('root')
+    );
+}
+
+ReactDOM.render(
+    <SwipeTransition>
+        <LandingApp
+            key="welcomeApp"
+            refreshHandler={refreshData}
+            createHandler={joinSession}
+            connectHandler={joinSession}
+        />
+    </SwipeTransition>,
+    document.getElementById('root')
+);
+
+refreshData();
 //createSession();
