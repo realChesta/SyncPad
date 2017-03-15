@@ -5,18 +5,17 @@ var io = require('socket.io')(http);
 
 
 var sessionList = {
-    "Krek1": {session: "Krek1", content: {}, users: ["Krekosaurus", "Adolf", "Merkel"]},
-    "Sample2": {session: "Sample2", content: {}, users: ["Loner"]},
-    "Max Muster": {session: "Max Muster", content: {}, users: ["Fax Fuster", "Dax Duster"]}
+    "Krek1": {content: {}, users: ["Krekosaurus", "Adolf", "Merkel"]},
+    "Sample2": {content: {}, users: ["Loner"]},
+    "Max Muster": {content: {}, users: ["Fax Fuster", "Dax Duster"]}
 };
 
 function getInfo() {
     let listSessions = [];
-    for (let session in sessionList) {
+    for (let sessions in sessionList) {
         let obj = {
-            sessionName: sessionList[session].name,
-            content: sessionList[session].content,
-            users: sessionList[session].users.length
+            name: sessions,
+            users: sessionList[sessions].users.length
         };
         listSessions.push(obj);
     }
@@ -41,7 +40,8 @@ function checkUser(session) {
     }
     return false;
 }
-
+//TODO: Remove session when no user inside
+//TODO: Remove session on command
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -65,28 +65,26 @@ http.listen(80, function () {
 
 io.on('connection', function (socket) {
     console.log('a user connected');
-    socket.on('disconnect', function () {
-        console.log('user disconnected');
+    socket.on('disconnect', function (socket) {
+        console.log('a user disconnected');
     });
     socket.on('auth', function (usr) {
+        console.log('auth');
         if (!checkSession(usr)) {
             sessionList[usr.session] = {
-                sessionName: usr.session,
                 content: '',
-                users: [usr.name]
+                users: [{socket: socket, name: usr.name}]
             };
+            console.log(usr.name + (" created a session named " + usr.session))
         }
         else {
             if (checkUser(usr)) {
                 console.log("Occupied");
             }
             else {
-                sessionList[usr.session].users.push(usr.name);
+                sessionList[usr.session].users.push({socket: socket, name: usr.name});
+                console.log(usr.name + " connected to " + usr.session)
             }
         }
     });
-});
-
-io.on('auth', function (socket) {
-    console.log('auth');
 });
