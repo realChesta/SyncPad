@@ -64,15 +64,6 @@ html, body {
     padding: 20px;
 }
 
-.EA-body-editor-textbox {
-    width: 100%;
-    height: 100%;
-    resize: none;
-    border-radius: 3px;
-    border: solid 1px #aaa;
-    box-sizing: border-box;
-}
-
 .EA-body-sidebar {
     flex: 0 1 auto;
     width: 150px;

@@ -5,6 +5,9 @@
 import React, {Component} from 'react';
 import logo from './img/syncpad-icon.svg';
 import './style/EditingApp.css';
+import SocketEditor from './SocketEditor.js';
+
+//<textarea className="EA-body-editor-textbox" ref={(input) => { this.textBox = input; }}/>
 
 class EditingApp extends Component {
 
@@ -30,9 +33,7 @@ class EditingApp extends Component {
                     <p className="EA-head-title">{this.props.title}</p>
                 </div>
                 <div className="EA-body">
-                    <div className="EA-body-editor">
-                        <textarea className="EA-body-editor-textbox" ref={(input) => { this.textBox = input; }}/>
-                    </div>
+                    <SocketEditor className="EA-body-editor"/>
                     <div className="EA-body-sidebar">
                         <p className="EA-body-sidebar-list-item">User</p>
                     </div>
