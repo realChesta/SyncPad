@@ -45,15 +45,14 @@ function refreshData()
             <LandingApp
                 key="welcomeApp"
                 refreshHandler={refreshData}
-                createHandler={joinSession}
-                connectHandler={joinSession}
+                joinHandler={joinSession}
             />
         </SwipeTransition>,
         document.getElementById('root')
     );
 
     rp({
-        url: 'http://localhost/getSessions',
+        url: 'http://172.20.10.6/getSessions',
         timeout: 5000
     })
         .then(function (body)
@@ -69,8 +68,7 @@ function refreshData()
                     <LandingApp
                         key="welcomeApp"
                         refreshHandler={refreshData}
-                        createHandler={joinSession}
-                        connectHandler={joinSession}
+                        joinHandler={joinSession}
                         tableData={data}
                     />
                 </SwipeTransition>,
@@ -86,8 +84,7 @@ function refreshData()
                     <LandingApp
                         key="welcomeApp"
                         refreshHandler={refreshData}
-                        createHandler={joinSession}
-                        connectHandler={joinSession}
+                        joinHandler={joinSession}
                         error={{ title: "Something went wrong", message: "Could not get session list!", error: error }}
                     />
                 </SwipeTransition>,
@@ -96,9 +93,9 @@ function refreshData()
         });
 }
 
-function joinSession(sname)
+function joinSession(user, session)
 {
-    let sc = new SessionClient("krekboy", sname);
+    let sc = new SessionClient(user, session);
     sc.connect();
 }
 
@@ -117,8 +114,7 @@ ReactDOM.render(
         <LandingApp
             key="welcomeApp"
             refreshHandler={refreshData}
-            createHandler={joinSession}
-            connectHandler={joinSession}
+            joinHandler={joinSession}
         />
     </SwipeTransition>,
     document.getElementById('root')

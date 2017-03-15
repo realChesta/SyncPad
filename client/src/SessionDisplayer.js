@@ -7,13 +7,18 @@ import './style/SessionDisplayer.css';
 
 class SessionDisplayer extends Component {
 
+    clickHandler = (e) =>
+    {
+        this.props.connectHandler(e.currentTarget.id);
+    };
+
     render()
     {
         var rows = [];
 
         if (this.props.data)
         {
-            let ch = this.props.connectHandler;
+            let ch = this.clickHandler;
             rows = this.props.data.map(function (d)
             {
                 return (
@@ -21,7 +26,7 @@ class SessionDisplayer extends Component {
                         <td>{d.name}</td>
                         <td>{d.users}</td>
                         <td>
-                            <button id={d.name} onClick={ch(d.name)} className="g-button c-button">Connect</button>
+                            <button id={d.name} onClick={ch} className="g-button c-button">Connect</button>
                         </td>
                     </tr>
                 );
