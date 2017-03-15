@@ -16,12 +16,12 @@ class CreateSessionBox extends Component {
 
     handleUserChange = (e) =>
     {
-        this.setState({ sessionName: e.target.value });
+        this.setState({ username: e.target.value });
     };
 
     handleSessionChange = (e) =>
     {
-        this.setState({ username: e.target.value });
+        this.setState({ sessionName: e.target.value });
     };
 
     handleKeyUp = (e) =>
@@ -64,7 +64,7 @@ class CreateSessionBox extends Component {
                     <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} className="IB-body-input" ref={(input) => { this.userInput = input; }}/>
                     <p className="IB-body-text">{this.props.sessionText}</p>
                     <input onChange={this.handleSessionChange} onKeyUp={this.handleKeyUp} className="IB-body-input"/>
-                    <button disabled={!this.state.sessionName} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
+                    <button disabled={!(this.state.sessionName && this.state.username)} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
                 </div>
             </div>
         );

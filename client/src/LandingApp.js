@@ -32,7 +32,6 @@ class LandingApp extends Component {
         this.setState({input: false});
         if (user)
         {
-            console.log("session name: " + user);
             this.props.joinHandler(user, this.state.sname);
         }
     };
