@@ -9,7 +9,6 @@ var sessionList = {
     "Sample2": {content: {}, users: ["Loner"]},
     "Max Muster": {content: {}, users: ["Fax Fuster", "Dax Duster"]}
 };
-
 function getInfo() {
     let listSessions = [];
     for (let sessions in sessionList) {
