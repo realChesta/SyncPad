@@ -21,14 +21,14 @@ html, body {
 }
 
 .EA-head-logo {
+    width: 120px;
     float: left;
     overflow: auto;
-    width: 10%;
 }
 
 .EA-head-logo-image {
     height: 40px;
-    margin-top: 4px;
+    margin-top: 6px;
     float: left;
 }
 
@@ -40,13 +40,82 @@ html, body {
 .EA-head-title {
     text-align: center;
     color: white;
-    margin-left: auto;
-    margin-right: 10%;
+    overflow: hidden;
 }
 
-.EA-head-end {
+.EA-head-state {
+    margin-top: 5px;
+    width: 120px;
     float: right;
-    width: 10%;
+}
+
+.EA-head-state-text {
+    color: white;
+    font-size: 14px;
+}
+
+.EA-orb {
+    width: 8px;
+    height: 8px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    float: left;
+    margin: 20px 5px;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+.EA-orb-ok {
+    background-color: rgb(0, 170, 0);
+    box-shadow: 0 0 4px rgb(0, 170, 0);
+    animation-name: orb-ok-pulse;
+}
+
+.EA-orb-warning {
+    background-color: orange;
+    box-shadow: 0 0 4px orange;
+    animation-name: orb-warning-pulse;
+}
+
+.EA-orb-error {
+    background-color: red;
+    box-shadow: 0 0 4px red;
+    animation-name: orb-error-pulse;
+}
+
+@keyframes orb-ok-pulse {
+    0% {
+        box-shadow: 0 0 4px green;
+    }
+    50% {
+        box-shadow: 0 0 6px green;
+    }
+    100% {
+        box-shadow: 0 0 4px green;
+    }
+}
+@keyframes orb-warning-pulse {
+    0% {
+        box-shadow: 0 0 4px orange;
+    }
+    50% {
+        box-shadow: 0 0 6px orange;
+    }
+    100% {
+        box-shadow: 0 0 4px orange;
+    }
+}
+@keyframes orb-error-pulse {
+    0% {
+        box-shadow: 0 0 4px red;
+    }
+    50% {
+        box-shadow: 0 0 6px red;
+    }
+    100% {
+        box-shadow: 0 0 4px red;
+    }
 }
 
 .EA-body {
@@ -72,39 +141,10 @@ html, body {
     margin: 20px 20px 20px 0;
     border-radius: 3px;
     border: solid 1px #aaa;
-    text-align: center;
 }
 
 .EA-body-sidebar-you {
-    width: auto;
-    clear: both;
-    overflow: auto;
-}
-
-.EA-body-sidebar-you-orb {
-    width: 8px;
-    height: 8px;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-    float:left;
-    margin: 23px 0 16px 16px;
-}
-
-.EA-body-sidebar-you-orb-ok {
-    background-color: green;
-}
-
-.EA-body-sidebar-you-orb-warning {
-    background-color: orange;
-}
-
-.EA-body-sidebar-you-orb-error {
-    background-color: red;
-}
-
-.EA-body-sidebar-you-text {
-    margin: 16px 16px 16px 8px;
+    margin: 16px 16px 16px 15%;
     text-align: left;
     float: left;
 }
@@ -115,4 +155,8 @@ html, body {
     height: 1px;
     border: 0;
     background: lightgray;
+}
+
+.EA-body-sidebar-item {
+    margin-left: 15%;
 }

@@ -93,6 +93,6 @@ function onAuth(socket, usr) {
 }
 
 io.on('connection', function (socket) {
-    console.log('a user connected');5
+    console.log('a user connected');
     socket.on('auth', _.partial(onAuth, socket));
 });

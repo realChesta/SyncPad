@@ -8,6 +8,7 @@ module.exports = class Session {
     }
 
     onSocketDisconnect(socket) {
+        console.log("disconnect");
         for (let user in this.users) {
             if (socket === user.socket) {
                 let index = this.users.indexOf(user);
@@ -15,6 +16,7 @@ module.exports = class Session {
                 console.log(user+" left the session.");
             }
             if (this.users.length === 0) {
+                console.log("krek");
                 this.onSessionEmpty(this.name);
             }
         }
