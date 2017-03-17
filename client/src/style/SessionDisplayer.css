@@ -5,11 +5,11 @@
     clear: both;
     padding-top: 5px;
     position: absolute;
+    width: 100%;
 }
 
 .SD-table {
     border-collapse: collapse;
-    width: 100%;
     /*opacity: inherit;*/
     position: relative;
 }
@@ -45,4 +45,16 @@ td.last-child {
 .c-button {
     padding: 5px 20px;
     float: right;
+}
+
+.SD-empty {
+    width: 100%;
+    position: relative;
+    margin: 50px auto auto;
+}
+
+.SD-empty-text {
+    color: #8c8c8c;
+    width: 100%;
+    text-align: center;
 }

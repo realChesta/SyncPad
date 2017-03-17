@@ -35,14 +35,20 @@ class SessionDisplayer extends Component {
 
         return (
             <div className="SD">
-                <table className="SD-table">
-                    <tr>
-                        <th>Session name</th>
-                        <th>Connected users</th>
-                        <th/>
-                    </tr>
-                    {rows}
-                </table>
+                {rows.length > 0 ?
+                    (<table className="SD-table">
+                        <tr>
+                            <th>Session name</th>
+                            <th>Connected users</th>
+                            <th/>
+                        </tr>
+                        {rows}
+                    </table>)
+                    :
+                    (<div className="SD-empty">
+                        <p className="SD-empty-text">There are no existing sessions.</p>
+                    </div>)
+                }
             </div>
         );
     }
