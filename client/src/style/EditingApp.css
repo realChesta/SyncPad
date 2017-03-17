@@ -72,11 +72,47 @@ html, body {
     margin: 20px 20px 20px 0;
     border-radius: 3px;
     border: solid 1px #aaa;
-}
-
-.EA-body-sidebar-list {
-}
-
-.EA-body-sidebar-list-item {
     text-align: center;
+}
+
+.EA-body-sidebar-you {
+    width: auto;
+    clear: both;
+    overflow: auto;
+}
+
+.EA-body-sidebar-you-orb {
+    width: 8px;
+    height: 8px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    float:left;
+    margin: 23px 0 16px 16px;
+}
+
+.EA-body-sidebar-you-orb-ok {
+    background-color: green;
+}
+
+.EA-body-sidebar-you-orb-warning {
+    background-color: orange;
+}
+
+.EA-body-sidebar-you-orb-error {
+    background-color: red;
+}
+
+.EA-body-sidebar-you-text {
+    margin: 16px 16px 16px 8px;
+    text-align: left;
+    float: left;
+}
+
+.EA-body-sidebar-separator {
+    clear: both;
+    width: 80%;
+    height: 1px;
+    border: 0;
+    background: lightgray;
 }

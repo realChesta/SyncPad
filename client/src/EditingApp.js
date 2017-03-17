@@ -20,6 +20,11 @@ class EditingApp extends Component {
     {
     }
 
+    onSocketDisconnect = () =>
+    {
+
+    };
+
     render()
     {
         return (
@@ -36,9 +41,15 @@ class EditingApp extends Component {
                         <SocketEditor
                             session={this.props.session}
                             username={this.props.username}
+                            onDisconnect={this.onSocketDisconnect}
                         />
                     </div>
                     <div className="EA-body-sidebar">
+                        <div className="EA-body-sidebar-you">
+                            <div className="EA-body-sidebar-you-orb EA-body-sidebar-you-orb-ok"/>
+                            <p className="EA-body-sidebar-you-text">You</p>
+                        </div>
+                        <hr className="EA-body-sidebar-separator"/>
                         <p className="EA-body-sidebar-list-item">User</p>
                     </div>
                 </div>
