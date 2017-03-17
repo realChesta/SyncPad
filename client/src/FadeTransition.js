@@ -10,6 +10,7 @@ class FadeTransition extends Component {
     {
         return (
             <TransitionMotion
+                style={{ position: "absolute", width: "100%", height: "100%"}}
                 styles={
                     this.props.children ? [
                             { key: this.props.children.key, style: this.getStyles(), data: this.props.children }
@@ -23,6 +24,9 @@ class FadeTransition extends Component {
                         {int.map(({ key, style, data }) =>
                             <div key={`${key}-transition`} style={
                                 {
+                                    position: "absolute",
+                                    width: "100%",
+                                    height: "100%",
                                     opacity: style.opacity,
                                     transform: `scale(${style.scale})`,
                                     clear: "both"
