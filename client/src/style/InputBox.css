@@ -9,6 +9,7 @@
     overflow: auto;
     border-radius: 3px;
     left: 25%;
+    box-shadow: 0 0 10px gray;
 }
 
 .IB-title {
