@@ -93,17 +93,21 @@ function refreshData()
         });
 }
 
-function joinSession(user, session)
+function onDisconnect()
 {
-    let sc = new SessionClient(user, session);
-    sc.connect();
+    refreshData();
 }
 
-function startEditor(sClient)
+function joinSession(user, session)
 {
     ReactDOM.render(
         <SwipeTransition>
-            <EditingApp key="EA" title={sClient.name}/>
+            <EditingApp
+                key="EditingApp"
+                session={session}
+                username={user}
+                onDisconnect={onDisconnect}
+            />
         </SwipeTransition>,
         document.getElementById('root')
     );
