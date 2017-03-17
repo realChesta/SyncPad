@@ -93,9 +93,6 @@ function onAuth(socket, usr) {
 }
 
 io.on('connection', function (socket) {
-    console.log('a user connected');
-    socket.on('disconnect', function (socket) {
-        console.log('a user disconnected');
-    });
+    console.log('a user connected');5
     socket.on('auth', _.partial(onAuth, socket));
 });

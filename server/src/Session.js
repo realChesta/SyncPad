@@ -7,10 +7,6 @@ module.exports = class Session {
         this.registerSocket(user.socket);
     }
 
-    registerSocket(socket) {
-        socket.on('disconnect', this.onSocketDisconnect);
-    }
-
     onSocketDisconnect(socket) {
         for (let user in this.users) {
             if (socket === user.socket) {
@@ -23,4 +19,10 @@ module.exports = class Session {
             }
         }
     }
+
+    registerSocket(socket) {
+        socket.on('disconnect', this.onSocketDisconnect);
+        socket.on('disconnect', (socket) => this.onSocketDisconnect(socket));
+    }
+
 };
