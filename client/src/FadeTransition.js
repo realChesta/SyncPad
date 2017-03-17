@@ -10,7 +10,7 @@ class FadeTransition extends Component {
     {
         return (
             <TransitionMotion
-                style={{ position: "absolute", width: "100%", height: "100%"}}
+                style={{ position: "absolute", width: "100%", height: "100%" }}
                 styles={
                     this.props.children ? [
                             { key: this.props.children.key, style: this.getStyles(), data: this.props.children }
@@ -40,29 +40,30 @@ class FadeTransition extends Component {
         );
     }
 
-    willEnter()
+    willEnter = () =>
     {
         return {
             opacity: 0,
             scale: 0.98
         };
-    }
+    };
 
-    willLeave()
+    willLeave = () =>
     {
+        let val = this.props.fullscreenFriendly ? 1 : 1.02;
         return {
             opacity: spring(0),
-            scale: spring(1.02)
+            scale: spring(val)
         };
-    }
+    };
 
-    getStyles()
+    getStyles = () =>
     {
         return {
             opacity: spring(1),
             scale: spring(1)
         };
-    }
+    };
 }
 
 export default FadeTransition;

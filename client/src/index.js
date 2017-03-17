@@ -38,7 +38,7 @@ var data2 = [
 function refreshData()
 {
     ReactDOM.render(
-        <FadeTransition>
+        <FadeTransition fullscreenFriendly={true}>
             <LandingApp
                 key="welcomeApp"
                 refreshHandler={refreshData}
@@ -49,7 +49,7 @@ function refreshData()
     );
 
     rp({
-        url: 'http://172.20.10.6/getSessions',
+        url: 'http://localhost/getSessions',
         timeout: 5000
     })
         .then(function (body)
@@ -61,7 +61,7 @@ function refreshData()
             console.log(data);
 
             ReactDOM.render(
-                <FadeTransition>
+                <FadeTransition fullscreenFriendly={true}>
                     <LandingApp
                         key="welcomeApp"
                         refreshHandler={refreshData}
@@ -77,7 +77,7 @@ function refreshData()
             console.error("Failed to get session list! " + error.message);
 
             ReactDOM.render(
-                <FadeTransition>
+                <FadeTransition fullscreenFriendly={true}>
                     <LandingApp
                         key="welcomeApp"
                         refreshHandler={refreshData}
@@ -98,7 +98,7 @@ function onDisconnect()
 function joinSession(user, session)
 {
     ReactDOM.render(
-        <FadeTransition>
+        <FadeTransition fullscreenFriendly={true}>
             <EditingApp
                 key="EditingApp"
                 session={session}
@@ -111,7 +111,7 @@ function joinSession(user, session)
 }
 
 ReactDOM.render(
-    <FadeTransition>
+    <FadeTransition fullscreenFriendly={true}>
         <LandingApp
             key="welcomeApp"
             refreshHandler={refreshData}
