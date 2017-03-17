@@ -7,24 +7,23 @@ module.exports = class Session {
         this.registerSocket(user.socket);
     }
 
+
     onSocketDisconnect(socket) {
         console.log("disconnect");
-        for (let user in this.users) {
-            if (socket === user.socket) {
-                let index = this.users.indexOf(user);
-                this.users.splice(index, 1);
-                console.log(user+" left the session.");
-            }
-            if (this.users.length === 0) {
-                console.log("krek");
-                this.onSessionEmpty(this.name);
+        for (let i = 0; i < this.users.length; i++) {
+            if (socket === this.users[i].socket) {
+                console.log(this.users[i].name + " left the session.");
+                this.users.splice(i, 1);
+                break;
             }
         }
-    }
+        if (this.users.length === 0) {
+            this.onSessionEmpty(this.name);
+        }
+    };
 
     registerSocket(socket) {
-        socket.on('disconnect', this.onSocketDisconnect);
-        socket.on('disconnect', (socket) => this.onSocketDisconnect(socket));
+        socket.on('disconnect', () => this.onSocketDisconnect(socket));
     }
 
 };
