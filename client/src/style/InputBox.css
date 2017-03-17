@@ -43,7 +43,7 @@
 
 .IB-body {
     position: relative;
-    margin: 16px auto 0 auto;
+    margin: 0 auto 0 auto;
     padding: 16px;
     overflow: auto;
 }
@@ -59,8 +59,7 @@
 
 .IB-body-text {
     width: 100%;
-    margin: 0;
-    margin-bottom: 5px;
+    margin: 5px 0 0;
     text-align: left;
 }
 
