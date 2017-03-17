@@ -18,7 +18,6 @@ class EditingApp extends Component {
 
     componentDidMount()
     {
-        this.textBox.focus();
     }
 
     render()
@@ -30,10 +29,14 @@ class EditingApp extends Component {
                         <img src={logo} className="EA-head-logo-image" alt="logo"/>
                         <p className="EA-head-logo-text">SyncPad</p>
                     </div>
-                    <p className="EA-head-title">{this.props.title}</p>
+                    <p className="EA-head-title">{this.props.session}</p>
                 </div>
                 <div className="EA-body">
-                    <SocketEditor className="EA-body-editor"/>
+                    <SocketEditor
+                        className="EA-body-editor"
+                        session={this.props.session}
+                        username={this.props.username}
+                    />
                     <div className="EA-body-sidebar">
                         <p className="EA-body-sidebar-list-item">User</p>
                     </div>
