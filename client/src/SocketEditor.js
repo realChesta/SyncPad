@@ -3,6 +3,8 @@
  */
 
 import React, {Component} from 'react';
+import './style/SocketEditor.css';
+
 var io = require('socket.io-client');
 
 class SocketEditor extends Component
