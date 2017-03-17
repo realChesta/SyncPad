@@ -2,13 +2,11 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var _ = require('lodash');
+var Session = require("./Session.js");
 
+var sessionList = {};
 
-var sessionList = {
-    "Krek1": {content: {}, users: ["Krekosaurus", "Adolf", "Merkel"]},
-    "Sample2": {content: {}, users: ["Loner"]},
-    "Max Muster": {content: {}, users: ["Fax Fuster", "Dax Duster"]}
-};
 function getInfo() {
     let listSessions = [];
     for (let sessions in sessionList) {
@@ -24,7 +22,7 @@ function getInfo() {
 
 function checkSession(usr) {
     for (let session in sessionList) {
-        if (usr.session === session.sessionName) {
+        if (usr.session === session) {
             return true;
         }
     }
@@ -62,28 +60,42 @@ http.listen(80, function () {
     console.log("Krekosaurus");
 });
 
+function onSessionEmpty(session)
+{
+    delete sessionList[session];
+    console.log("Session "+session+" ended because everyone left.")
+}
+
+function onAuth(socket, usr) {
+    console.log('auth');
+    if (!checkSession(usr)) {
+        let userData = {socket: socket, name: usr.name};
+        sessionList[usr.session] = new Session(usr.session, userData, onSessionEmpty);
+        let msg = {state: true, msg: "Successfully created a new session."};
+        socket.emit('authResponse', msg);
+        console.log(usr.name + (" created a session named " + usr.session));
+    }
+    else {
+        if (checkUser(usr)) {
+            console.log("Occupied");
+            let msg = {state: false, msg: "Another user with the same name is already in this session."};
+            socket.emit('authResponse', msg)
+        }
+        else {
+            let session = sessionList[usr.session];
+            session.users.push({socket: socket, name: usr.name});
+            console.log(usr.name + " connected to " + usr.session);
+            let msg = {state: true, msg: "Successfully joined " + usr.session + "."};
+            socket.emit('authResponse', msg);
+            session.registerSocket(socket);
+        }
+    }
+}
+
 io.on('connection', function (socket) {
     console.log('a user connected');
     socket.on('disconnect', function (socket) {
         console.log('a user disconnected');
     });
-    socket.on('auth', function (usr) {
-        console.log('auth');
-        if (!checkSession(usr)) {
-            sessionList[usr.session] = {
-                content: '',
-                users: [{socket: socket, name: usr.name}]
-            };
-            console.log(usr.name + (" created a session named " + usr.session))
-        }
-        else {
-            if (checkUser(usr)) {
-                console.log("Occupied");
-            }
-            else {
-                sessionList[usr.session].users.push({socket: socket, name: usr.name});
-                console.log(usr.name + " connected to " + usr.session)
-            }
-        }
-    });
+    socket.on('auth', _.partial(onAuth, socket));
 });

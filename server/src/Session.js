@@ -1,8 +1,9 @@
-class Session {
+module.exports = class Session {
 
-    constructor(name, user) {
+    constructor(name, user, onSessionEmpty) {
         this.name = name;
         this.users = [user];
+        this.onSessionEmpty = onSessionEmpty;
         this.registerSocket(user.socket);
     }
 
@@ -15,12 +16,11 @@ class Session {
             if (socket === user.socket) {
                 let index = this.users.indexOf(user);
                 this.users.splice(index, 1);
+                console.log(user+" left the session.");
             }
             if (this.users.length === 0) {
-
+                this.onSessionEmpty(this.name);
             }
         }
     }
-
-
-}
+};
