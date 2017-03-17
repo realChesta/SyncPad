@@ -9,6 +9,8 @@ import './style/index.css';
 
 const rp = require('request-promise');
 
+//TODO: prevent user from accidentally leaving editing page
+
 var data = [
     {
         name: "Krek",

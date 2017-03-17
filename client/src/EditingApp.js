@@ -18,7 +18,7 @@ class EditingApp extends Component {
 
     componentDidMount()
     {
-
+        document.title = this.props.session + " - SyncPad";
     }
 
     onSocketDisconnect = () =>
