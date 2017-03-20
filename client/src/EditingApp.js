@@ -26,9 +26,14 @@ class EditingApp extends Component {
         this.setState({ stateCode: 2, statusText: "disconnected" });
     };
 
-    onSocketConnect = (users) =>
+    onSocketConnect = (data) =>
     {
-        this.setState({ stateCode: 0, statusText: "connected", users: users });
+        this.setState({ stateCode: 0, statusText: "connected", users: data.users });
+    };
+
+    onUserlist = (users) =>
+    {
+        this.setState({ users: users });
     };
 
     render()
@@ -75,6 +80,7 @@ class EditingApp extends Component {
                             username={this.props.username}
                             onDisconnect={this.onSocketDisconnect}
                             onConnect={this.onSocketConnect}
+                            onUserlist={this.onUserlist}
                         />
                     </div>
                     <div className="EA-body-sidebar">

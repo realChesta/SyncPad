@@ -27,6 +27,7 @@ class SocketEditor extends Component
     {
         this.socket.emit('auth', {session: this.props.session, name: this.props.username});
         this.socket.on('authResponse', this.onAuthed);
+        this.socket.on('userlist', this.onUserlist)
     };
 
     onDisconnect = () =>
@@ -41,6 +42,12 @@ class SocketEditor extends Component
 
         if (this.props.onConnect)
             this.props.onConnect(msg.users);
+    };
+
+    onUserlist = (msg) =>
+    {
+        if (this.props.onUserlist)
+            this.props.onUserlist(msg.users);
     };
 
     render()
