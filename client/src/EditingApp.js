@@ -21,18 +21,33 @@ class EditingApp extends Component {
         document.title = this.props.session + " - SyncPad";
     }
 
+    returnError = (msg) =>
+    {
+        if (this.props.onError)
+            this.props.onError(msg);
+    };
+
     onSocketDisconnect = () =>
     {
         this.setState({ stateCode: 2, statusText: "disconnected" });
+        this.returnError("Connection to the session was interrupted!");
     };
 
     onSocketConnect = (data) =>
     {
-        this.setState({ stateCode: 0, statusText: "connected", users: data.users });
+        if (data.state)
+        {
+            this.setState({stateCode: 0, statusText: "connected"});
+        }
+        else
+        {
+            this.returnError(data.msg);
+        }
     };
 
     onUserlist = (users) =>
     {
+        console.log("userlist:" + JSON.stringify(users));
         this.setState({ users: users });
     };
 
@@ -57,7 +72,7 @@ class EditingApp extends Component {
         let items = this.state.users ? this.state.users.map(u =>
             {
                 if (u != this.props.username)
-                    return <p className="EA-sidebar-item">{u}</p>;
+                    return <p className="EA-body-sidebar-item ">{u}</p>;
             }) : [];
 
         return (

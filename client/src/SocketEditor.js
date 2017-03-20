@@ -16,7 +16,7 @@ class SocketEditor extends Component
 
     componentDidMount()
     {
-        this.socket = io.connect('http://localhost/');
+        this.socket = io.connect('http://172.20.10.6/');
         this.socket.on('connect', this.onConnect);
         this.socket.on('connect_failed', this.onDisconnect);
         this.socket.on('error', this.onDisconnect);
@@ -41,13 +41,13 @@ class SocketEditor extends Component
         console.log('auth resp: ' + JSON.stringify(msg));
 
         if (this.props.onConnect)
-            this.props.onConnect(msg.users);
+            this.props.onConnect(msg);
     };
 
     onUserlist = (msg) =>
     {
         if (this.props.onUserlist)
-            this.props.onUserlist(msg.users);
+            this.props.onUserlist(msg);
     };
 
     render()
