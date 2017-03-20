@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import LandingApp from './LandingApp.js';
-import FadeTransition from './FadeTransition.js';
+import SwipeTransition from './SwipeTransition.js';
 import EditingApp from './EditingApp.js';
 
 import './style/index.css';
@@ -40,13 +40,13 @@ var data2 = [
 function refreshData()
 {
     ReactDOM.render(
-        <FadeTransition fullscreenFriendly={true}>
+        <SwipeTransition fullscreenFriendly={true}>
             <LandingApp
                 key="welcomeApp"
                 refreshHandler={refreshData}
                 joinHandler={joinSession}
             />
-        </FadeTransition>,
+        </SwipeTransition>,
         document.getElementById('root')
     );
 
@@ -63,14 +63,14 @@ function refreshData()
             console.log(data);
 
             ReactDOM.render(
-                <FadeTransition fullscreenFriendly={true}>
+                <SwipeTransition fullscreenFriendly={true}>
                     <LandingApp
                         key="welcomeApp"
                         refreshHandler={refreshData}
                         joinHandler={joinSession}
                         tableData={data}
                     />
-                </FadeTransition>,
+                </SwipeTransition>,
                 document.getElementById('root')
             );
         })
@@ -79,14 +79,14 @@ function refreshData()
             console.error("Failed to get session list! " + error.message);
 
             ReactDOM.render(
-                <FadeTransition fullscreenFriendly={true}>
+                <SwipeTransition fullscreenFriendly={true}>
                     <LandingApp
                         key="welcomeApp"
                         refreshHandler={refreshData}
                         joinHandler={joinSession}
                         error={{ title: "Something went wrong", message: "Could not get session list!", error: error }}
                     />
-                </FadeTransition>,
+                </SwipeTransition>,
                 document.getElementById('root')
             );
         });
@@ -100,26 +100,26 @@ function onDisconnect()
 function joinSession(user, session)
 {
     ReactDOM.render(
-        <FadeTransition fullscreenFriendly={true}>
+        <SwipeTransition fullscreenFriendly={true}>
             <EditingApp
                 key="EditingApp"
                 session={session}
                 username={user}
                 onDisconnect={onDisconnect}
             />
-        </FadeTransition>,
+        </SwipeTransition>,
         document.getElementById('root')
     );
 }
 
 ReactDOM.render(
-    <FadeTransition fullscreenFriendly={true}>
+    <SwipeTransition fullscreenFriendly={true}>
         <LandingApp
             key="welcomeApp"
             refreshHandler={refreshData}
             joinHandler={joinSession}
         />
-    </FadeTransition>,
+    </SwipeTransition>,
     document.getElementById('root')
 );
 

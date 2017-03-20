@@ -44,7 +44,7 @@ class SwipeTransition extends Component {
     {
         return {
             opacity: 0,
-            x: 100
+            x: 5
         };
     }
 
@@ -52,7 +52,7 @@ class SwipeTransition extends Component {
     {
         return {
             opacity: spring(0),
-            x: spring(-100)
+            x: spring(-5)
         };
     }
 
