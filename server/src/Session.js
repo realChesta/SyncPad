@@ -18,6 +18,15 @@ module.exports = class Session {
         });
     }
 
+    broadcastOp(data, socket) {
+        console.log("Recieved an op-packet");
+        for (let i = 0; i < this.users.length; i++) {
+            if (this.users[i].socket != socket) {
+                this.users[i].socket.emit('op', data);
+            }
+        }
+    }
+
     onSocketDisconnect(socket) {
         console.log("disconnect");
         for (let i = 0; i < this.users.length; i++) {
@@ -37,6 +46,7 @@ module.exports = class Session {
 
     registerSocket(socket) {
         socket.on('disconnect', () => this.onSocketDisconnect(socket));
+        socket.on('op', (data) => this.broadcastOp(data, socket));
     }
 
 
@@ -64,5 +74,4 @@ module.exports = class Session {
             console.log("User failed to join "+this.name+" because of the name")
         }
     }
-
 };
