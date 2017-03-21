@@ -3,12 +3,13 @@
  */
 
 import React, {Component} from 'react';
+import AceEditor from 'react-ace';
+
 import './style/SocketEditor.css';
 
 var io = require('socket.io-client');
 
-class SocketEditor extends Component
-{
+class SocketEditor extends Component {
     constructor(props)
     {
         super(props);
@@ -27,7 +28,8 @@ class SocketEditor extends Component
     {
         this.socket.emit('auth', {session: this.props.session, name: this.props.username});
         this.socket.on('authResponse', this.onAuthed);
-        this.socket.on('userlist', this.onUserlist)
+        this.socket.on('userlist', this.onUserlist);
+        this.socket.on('op', this.onOp);
     };
 
     onDisconnect = () =>
@@ -50,11 +52,29 @@ class SocketEditor extends Component
             this.props.onUserlist(msg);
     };
 
+    onChange = (value) =>
+    {
+        this.socket.emit('op', {content: value});
+    };
+
+    onOp = (data) =>
+    {
+
+    };
+
     render()
     {
         return (
             <div className="SocketEditor">
-                <textarea className="SocketEditor-textbox"/>
+                <AceEditor
+                    name="ace-editor"
+                    width="100%"
+                    height="100%"
+                    showPrintMargin={false}
+                    focus={true}
+                    className="SocketEditor-textbox"
+                    onChange={this.onChange}
+                />
             </div>
         );
     }
