@@ -22,6 +22,11 @@ class LandingApp extends Component {
         };
     }
 
+    componentDidMount()
+    {
+        document.title = "SyncPad";
+    }
+
     handleJoin = (sname) =>
     {
         this.setState({input: true, sname: sname});

@@ -52,7 +52,7 @@ function refreshData()
     );
 
     rp({
-        url: 'http://172.20.10.6/getSessions',
+        url: 'http://localhost/getSessions',
         timeout: 5000
     })
         .then(function (body)
