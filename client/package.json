@@ -5,6 +5,7 @@
   "dependencies": {
     "brace": "^0.9.1",
     "diff": "^3.2.0",
+    "randomcolor": "^0.4.4",
     "react": "15.4.2",
     "react-ace": "^4.1.6",
     "react-dom": "15.4.2",

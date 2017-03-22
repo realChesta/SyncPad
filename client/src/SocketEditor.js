@@ -5,23 +5,20 @@
 import React, {Component} from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
-const {Range} = ace.acequire('ace/range');
-import ColorTools from './ColorTools.js';
+const { Range } = ace.acequire('ace/range');
 
 import './style/SocketEditor.css';
 
-var io = require('socket.io-client');
-var jsDiff = require('diff');
-
-//TODO: generate random color for each user
-//TODO: add colored stroke next to names
+const io = require('socket.io-client');
+const jsDiff = require('diff');
+const randomColor = require('randomcolor');
 
 class SocketEditor extends Component {
     constructor(props)
     {
         super(props);
         this.oldText = '';
-        this.state = {cursors: []};
+        this.state = { cursors: [] };
         this.cursors = {};
         this.selections = {};
         this.users = {};
@@ -38,7 +35,7 @@ class SocketEditor extends Component {
 
     onConnect = () =>
     {
-        this.socket.emit('auth', {session: this.props.session, name: this.props.username});
+        this.socket.emit('auth', { session: this.props.session, name: this.props.username });
         this.socket.on('authResponse', (msg) => this.onAuthed(msg));
         this.socket.on('userlist', (msg) => this.onUserlist(msg));
         this.socket.on('op', (op) => this.onOp(op));
@@ -79,6 +76,8 @@ class SocketEditor extends Component {
             }
         }
 
+        console.log('users: ' + JSON.stringify(msg));
+
         for (let name in this.users)
         {
             if (msg.indexOf(name) === -1)
@@ -86,8 +85,11 @@ class SocketEditor extends Component {
         }
         for (let i = 0; i < msg.length; i++)
         {
-            if (!this.users.hasOwnProperty(msg[i]))
-                this.users[msg[i]] = ColorTools.randomColor();
+            if (msg[i] !== this.props.username && !this.users.hasOwnProperty(msg[i]))
+            {
+                let colorData = randomColor({ luminosity: 'bright', format: 'rgbArray' });
+                this.users[msg[i]] = { r: colorData[0], g: colorData[1], b: colorData[2] };
+            }
         }
 
         if (this.props.onUserlist)
@@ -105,7 +107,7 @@ class SocketEditor extends Component {
             {
                 for (let i = 0; i < diff.length; i++)
                 {
-                    let op = {position: pos};
+                    let op = { position: pos };
                     if (diff[i].added)
                     {
                         op.type = 'add';
@@ -131,11 +133,12 @@ class SocketEditor extends Component {
         this.editor.focus();
         this.editor.selection.on('changeCursor', this.onCursor);
         this.editor.selection.on('changeSelection', this.onSelection);
+        this.oldText = this.editor.getValue();
     };
 
     onCursor = (a, selection) =>
     {
-        console.log('cursor: ' + JSON.stringify(selection.getCursor()));
+        // console.log('cursor: ' + JSON.stringify(selection.getCursor()));
         this.socket.emit('op', {
             type: 'cursor',
             user: this.props.username,
@@ -145,7 +148,7 @@ class SocketEditor extends Component {
 
     onSelection = (a, selection) =>
     {
-        console.log('selection:' + JSON.stringify(selection.getRange()) + " | empty: " + selection.isEmpty());
+        // console.log('selection:' + JSON.stringify(selection.getRange()) + " | empty: " + selection.isEmpty());
 
         let data = {
             type: 'selection',
@@ -166,6 +169,8 @@ class SocketEditor extends Component {
         // let pos = this.editor.getCursorPosition();
         let selection = this.editor.getSelectionRange();
         let cancelCursor = false;
+
+        console.log('op: ' + JSON.stringify(op));
 
         switch (op.type)
         {
@@ -199,15 +204,14 @@ class SocketEditor extends Component {
                     delete this.cursors[op.user];
                 }
 
-                let obj = this.editor.session.addDynamicMarker({
-                    update: (html, markerLayer, session, config) => this.updateRemoteCursor(html, markerLayer, config, op.position, {
-                        r: 255,
-                        g: 0,
-                        b: 0
-                    })
-                });
+                if (this.users.hasOwnProperty(op.user))
+                {
+                    let obj = this.editor.session.addDynamicMarker({
+                        update: (html, markerLayer, session, config) => this.updateRemoteCursor(html, markerLayer, config, op.position, this.users[op.user])
+                    });
 
-                this.cursors[op.user] = obj.id;
+                    this.cursors[op.user] = obj.id;
+                }
             }
                 break;
 
@@ -220,14 +224,10 @@ class SocketEditor extends Component {
                     delete this.selections[op.user];
                 }
 
-                if (!op.empty)
+                if (this.users.hasOwnProperty(op.user) && !op.empty)
                 {
                     let obj = this.editor.session.addDynamicMarker({
-                        update: (html, markerLayer, session, config) => this.updateRemoteSelection(html, markerLayer, config, op.range, {
-                            r: 255,
-                            g: 0,
-                            b: 0
-                        })
+                        update: (html, markerLayer, session, config) => this.updateRemoteSelection(html, markerLayer, config, op.range, this.users[op.user])
                     });
 
                     this.selections[op.user] = obj.id;
@@ -255,20 +255,6 @@ class SocketEditor extends Component {
             markerLayer.drawMultiLineMarker(html, range, '', config, style);
         else
             markerLayer.drawSingleLineMarker(html, range, '', config, 0, style);
-    };
-
-    updateMarker = (html, markerLayer, session, config, range) =>
-    {
-        if (range.isMultiLine())
-        {
-            let extraStyle = "position: absolute; background-color: rgba(255, 0, 0, 0.5) ";
-            markerLayer.drawMultiLineMarker(html, range, '', config, extraStyle);
-        }
-        else
-        {
-            let extraStyle = "position: absolute; border-left : solid 2px rgba(255, 0, 0, 0.5); ";
-            markerLayer.drawSingleLineMarker(html, range, '', config, 0, extraStyle);
-        }
     };
 
     render()
