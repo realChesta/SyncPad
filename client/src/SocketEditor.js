@@ -39,6 +39,7 @@ class SocketEditor extends Component {
         this.socket.on('authResponse', (msg) => this.onAuthed(msg));
         this.socket.on('userlist', (msg) => this.onUserlist(msg));
         this.socket.on('op', (op) => this.onOp(op));
+        this.socket.on('getSnapshot', (msg) => this.onGetContent(msg.user));
     };
 
     onDisconnect = () =>
@@ -130,6 +131,7 @@ class SocketEditor extends Component {
     onLoad = (editor) =>
     {
         this.editor = editor;
+        this.editor.setOption('dragEnabled', false);
         this.editor.focus();
         this.editor.selection.on('changeCursor', this.onCursor);
         this.editor.selection.on('changeSelection', this.onSelection);
@@ -257,26 +259,17 @@ class SocketEditor extends Component {
             markerLayer.drawSingleLineMarker(html, range, '', config, 0, style);
     };
 
+    onGetContent = (user) =>
+    {
+        this.socket.emit('snapshot',
+            {
+                content: this.editor.getValue(),
+                user: user
+            });
+    };
+
     render()
     {
-        let markers = [];
-
-        if (this.state.cursors)
-        {
-            markers = this.state.cursors.map((c) =>
-            {
-                return {
-                    startRow: c.row,
-                    startCol: c.col,
-                    endRow: c.row,
-                    endCol: c.col + 1,
-                    className: 'marker-test',
-                    type: 'background',
-
-                };
-            });
-        }
-
         return (
             <div className="SocketEditor">
                 <AceEditor
