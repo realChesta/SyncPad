@@ -6,11 +6,15 @@ import React, {Component} from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
 const {Range} = ace.acequire('ace/range');
+import ColorTools from './ColorTools.js';
 
 import './style/SocketEditor.css';
 
 var io = require('socket.io-client');
 var jsDiff = require('diff');
+
+//TODO: generate random color for each user
+//TODO: add colored stroke next to names
 
 class SocketEditor extends Component {
     constructor(props)
@@ -20,6 +24,7 @@ class SocketEditor extends Component {
         this.state = {cursors: []};
         this.cursors = {};
         this.selections = {};
+        this.users = {};
     }
 
     componentDidMount()
@@ -55,7 +60,6 @@ class SocketEditor extends Component {
 
     onUserlist = (msg) =>
     {
-        debugger;
         for (let name in this.cursors)
         {
             let index = msg.indexOf(name);
@@ -65,7 +69,6 @@ class SocketEditor extends Component {
                 delete this.cursors[name];
             }
         }
-
         for (let name in this.selections)
         {
             let index = msg.indexOf(name);
@@ -76,8 +79,19 @@ class SocketEditor extends Component {
             }
         }
 
+        for (let name in this.users)
+        {
+            if (msg.indexOf(name) === -1)
+                delete this.users[name];
+        }
+        for (let i = 0; i < msg.length; i++)
+        {
+            if (!this.users.hasOwnProperty(msg[i]))
+                this.users[msg[i]] = ColorTools.randomColor();
+        }
+
         if (this.props.onUserlist)
-            this.props.onUserlist(msg);
+            this.props.onUserlist(this.users);
     };
 
     onChange = (value) =>
