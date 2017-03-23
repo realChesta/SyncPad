@@ -26,6 +26,22 @@ module.exports = class Session {
             }
         }
     }
+    getSnapshot(name) {
+        this.users[0].socket.emit('getSnapshot', {user: name});
+    }
+
+    onSnapshot(data) {
+        console.log("onSnapshot");
+        for (let i = 0; i < this.users.length; i++) {
+            if (data.user === this.users[i].name) {
+                let content = {type: "set", content: data.content };
+                this.users[i].socket.emit('op', content);
+                console.log("snapshot sent")
+                break;
+            }
+        }
+
+    }
 
     onSocketDisconnect(socket) {
         console.log("disconnect");
@@ -47,8 +63,8 @@ module.exports = class Session {
     registerSocket(socket) {
         socket.on('disconnect', () => this.onSocketDisconnect(socket));
         socket.on('op', (data) => this.broadcastOp(data, socket));
+        socket.on('snapshot', (data) => this.onSnapshot(data));
     }
-
 
     checkUser(name) {
         for (let i = 0; i < this.users.length; i++) {
@@ -61,6 +77,7 @@ module.exports = class Session {
 
     addUser(socket, data) {
         if (!this.checkUser(data.name)) {
+            this.getSnapshot(data.name);
             this.users.push({socket: socket, name: data.name});
             let msg = {state: true, msg: "Successfully joined " + data.session + "."};
             socket.emit('authResponse', msg);
