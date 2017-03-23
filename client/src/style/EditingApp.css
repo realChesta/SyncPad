@@ -159,5 +159,19 @@ html, body {
 }
 
 .EA-body-sidebar-item {
+    margin-top: 16px;
     margin-left: 15%;
+    overflow: auto;
+}
+
+.EA-body-sidebar-item-text {
+    float: left;
+    margin: 0 0 0 5px;
+}
+
+.EA-body-sidebar-item-colorstrip {
+    float: left;
+    width: 2px;
+    height: 16px;
+    margin-top: 4px;
 }

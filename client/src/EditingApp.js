@@ -37,7 +37,7 @@ class EditingApp extends Component {
     {
         if (data.state)
         {
-            this.setState({stateCode: 0, statusText: "connected"});
+            this.setState({ stateCode: 0, statusText: "connected" });
         }
         else
         {
@@ -69,11 +69,24 @@ class EditingApp extends Component {
                 break;
         }
 
-        let items = this.state.users ? this.state.users.map(u =>
+        let items = [];
+
+        for (let u in this.state.users)
+        {
+            if (u !== this.props.username)
             {
-                if (u != this.props.username)
-                    return <p className="EA-body-sidebar-item ">{u}</p>;
-            }) : [];
+                items.push(
+                    <div className="EA-body-sidebar-item" key={u}>
+                        <div
+                            className="EA-body-sidebar-item-colorstrip"
+                            style={{ backgroundColor: "rgba(" + this.state.users[u].r + ", " + this.state.users[u].g + ", " + this.state.users[u].b + ", 0.5)" }}
+                        />
+                        <p className="EA-body-sidebar-item-text">{u}</p>
+                    </div>);
+            }
+            // return <p className="EA-body-sidebar-item"
+            //           style={{ borderLeft: "2px solid rgb(" + this.state.users[u].r + ", " + this.state.users[u].g + ", " + this.state.users[u].r + ")" }}>{u}</p>;
+        }
 
         return (
             <div className="EA">
