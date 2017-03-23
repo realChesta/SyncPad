@@ -63,6 +63,12 @@
     text-align: left;
 }
 
+.IB-body-select {
+    width: 100%;
+    clear: both;
+    border: solid 1px #a0a0a0;
+}
+
 .IB-acceptButton {
     padding: 5px 20px;
     float: right;

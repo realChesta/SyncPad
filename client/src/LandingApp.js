@@ -68,6 +68,13 @@ class LandingApp extends Component {
                     title="Create Session"
                     userText="Choose a username under which you will appear for others:"
                     sessionText="Enter a session name:"
+                    selectText="Choose a mode for your session:"
+                    selectOptions={[
+                        {value: 'js', label: "JavaScript"},
+                        {value: 'rt', label: "Rich Text"},
+                        {value: 'c#', label: "C#"},
+                        {value: 'krek', label: "Krekmode"},
+                    ]}
                     action="Create"
                     onDone={this.handleCreateDone}
                 />

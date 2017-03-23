@@ -50,8 +50,6 @@ class SocketEditor extends Component {
 
     onAuthed = (msg) =>
     {
-        console.log('auth resp: ' + JSON.stringify(msg));
-
         if (this.props.onConnect)
             this.props.onConnect(msg);
     };
@@ -133,7 +131,6 @@ class SocketEditor extends Component {
 
     onLoad = (editor) =>
     {
-        console.log('loaded. oldText=' + this.oldText)
         this.editor = editor;
         this.editor.setOption('dragEnabled', false);
         this.editor.focus();
@@ -175,8 +172,6 @@ class SocketEditor extends Component {
         // let pos = this.editor.getCursorPosition();
         let selection = this.editor.getSelectionRange();
         let cancelCursor = false;
-
-        console.log('op: ' + JSON.stringify(op));
 
         switch (op.type)
         {
@@ -265,7 +260,6 @@ class SocketEditor extends Component {
 
     onGetContent = (user) =>
     {
-        console.log('getSnapshot: ' + user);
         this.socket.emit('snapshot',
             {
                 content: this.editor.getValue(),
@@ -275,7 +269,6 @@ class SocketEditor extends Component {
 
     render()
     {
-        console.log('oldText: ' + this.oldText);
         return (
             <div className="SocketEditor">
                 <AceEditor

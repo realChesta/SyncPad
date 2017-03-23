@@ -3,6 +3,7 @@
  */
 
 import React, {Component} from 'react';
+
 import './style/InputBox.css'
 
 class CreateSessionBox extends Component {
@@ -36,6 +37,11 @@ class CreateSessionBox extends Component {
         }
     };
 
+    handleSelect = (e) =>
+    {
+        console.log('selected: ' + e.target.id);
+    };
+
     handleClose = (e) =>
     {
         this.props.onDone();
@@ -64,6 +70,11 @@ class CreateSessionBox extends Component {
                     <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} className="IB-body-input" ref={(input) => { this.userInput = input; }}/>
                     <p className="IB-body-text">{this.props.sessionText}</p>
                     <input onChange={this.handleSessionChange} onKeyUp={this.handleKeyUp} className="IB-body-input"/>
+                    <p className="IB-body-text">{this.props.selectText}</p>
+                    <select className="IB-body-select" onInput={this.handleSelect}>
+                        <option id="js">JavaScript</option>
+                        <option>Rich Text</option>
+                    </select>
                     <button disabled={!(this.state.sessionName && this.state.username)} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
                 </div>
             </div>
