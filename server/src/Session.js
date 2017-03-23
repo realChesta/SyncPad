@@ -77,6 +77,7 @@ module.exports = class Session {
 
     addUser(socket, data) {
         if (!this.checkUser(data.name)) {
+            console.log('requesting snapshot');
             this.getSnapshot(data.name);
             this.users.push({socket: socket, name: data.name});
             let msg = {state: true, msg: "Successfully joined " + data.session + "."};

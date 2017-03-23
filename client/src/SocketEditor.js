@@ -275,6 +275,7 @@ class SocketEditor extends Component {
 
     render()
     {
+        console.log('oldText: ' + this.oldText);
         return (
             <div className="SocketEditor">
                 <AceEditor
@@ -286,6 +287,7 @@ class SocketEditor extends Component {
                     className="SocketEditor-textbox"
                     onLoad={this.onLoad}
                     onChange={this.onChange}
+                    value={this.oldText}
                 />;
             </div>
         );
