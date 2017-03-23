@@ -108,19 +108,22 @@ class SocketEditor extends Component {
             {
                 for (let i = 0; i < diff.length; i++)
                 {
-                    let op = { position: pos };
+                    let op = {};
                     if (diff[i].added)
                     {
                         op.type = 'add';
+                        op.position = pos;
                         op.content = diff[i].value;
                     }
                     else if (diff[i].removed)
                     {
                         op.type = 'remove';
+                        op.position = pos;
                         op.length = diff[i].count;
                     }
 
-                    this.socket.emit('op', op);
+                    if (op.type)
+                        this.socket.emit('op', op);
                 }
             }
         }
@@ -130,6 +133,7 @@ class SocketEditor extends Component {
 
     onLoad = (editor) =>
     {
+        console.log('loaded. oldText=' + this.oldText)
         this.editor = editor;
         this.editor.setOption('dragEnabled', false);
         this.editor.focus();
@@ -261,6 +265,7 @@ class SocketEditor extends Component {
 
     onGetContent = (user) =>
     {
+        console.log('getSnapshot: ' + user);
         this.socket.emit('snapshot',
             {
                 content: this.editor.getValue(),
@@ -281,7 +286,6 @@ class SocketEditor extends Component {
                     className="SocketEditor-textbox"
                     onLoad={this.onLoad}
                     onChange={this.onChange}
-                    value="kreeeeeeeeeeek"
                 />;
             </div>
         );
