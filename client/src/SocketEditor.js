@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import CodeMirror from 'react-codemirror';
 
+import 'codemirror/lib/codemirror.css';
 import './style/SocketEditor.css';
 
 const io = require('socket.io-client');
@@ -16,7 +17,7 @@ class SocketEditor extends Component {
     {
         super(props);
         this.oldText = '';
-        this.state = { cursors: [] };
+        this.state = {cursors: []};
         this.cursors = {};
         this.selections = {};
         this.users = {};
@@ -33,7 +34,7 @@ class SocketEditor extends Component {
 
     onConnect = () =>
     {
-        this.socket.emit('auth', { session: this.props.session, name: this.props.username });
+        this.socket.emit('auth', {session: this.props.session, name: this.props.username});
         this.socket.on('authResponse', (msg) => this.onAuthed(msg));
         this.socket.on('userlist', (msg) => this.onUserlist(msg));
         this.socket.on('op', (op) => this.onOp(op));
@@ -84,8 +85,8 @@ class SocketEditor extends Component {
         {
             if (msg[i] !== this.props.username && !this.users.hasOwnProperty(msg[i]))
             {
-                let colorData = randomColor({ luminosity: 'bright', format: 'rgbArray' });
-                this.users[msg[i]] = { r: colorData[0], g: colorData[1], b: colorData[2] };
+                let colorData = randomColor({luminosity: 'bright', format: 'rgbArray'});
+                this.users[msg[i]] = {r: colorData[0], g: colorData[1], b: colorData[2]};
             }
         }
 
@@ -269,17 +270,18 @@ class SocketEditor extends Component {
     {
         return (
             <div className="SocketEditor">
-                <AceEditor
-                    name="ace-editor"
-                    width="100%"
-                    height="100%"
+                <CodeMirror
+                    name="codemirror"
                     showPrintMargin={false}
                     focus={true}
-                    className="SocketEditor-textbox"
+                    className="CodeMirror-container"
                     onLoad={this.onLoad}
                     onChange={this.onChange}
                     value={this.oldText}
-                />;
+                    options={{
+                        lineNumbers: true,
+                    }}
+                />
             </div>
         );
     }
