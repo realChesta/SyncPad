@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "brace": "^0.9.1",
     "diff": "^3.2.0",
     "randomcolor": "^0.4.4",
     "react": "15.4.2",
-    "react-ace": "^4.1.6",
+    "react-codemirror": "^0.3.0",
     "react-dom": "15.4.2",
     "react-motion": "^0.4.7",
+    "react-select": "^1.0.0-rc.3",
     "request-promise": "^4.1.1",
     "socket.io-client": "^1.7.3"
   },

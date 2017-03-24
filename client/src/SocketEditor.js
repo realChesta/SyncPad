@@ -3,9 +3,7 @@
  */
 
 import React, {Component} from 'react';
-import AceEditor from 'react-ace';
-import ace from 'brace';
-const { Range } = ace.acequire('ace/range');
+import CodeMirror from 'react-codemirror';
 
 import './style/SocketEditor.css';
 
