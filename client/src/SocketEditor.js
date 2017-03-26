@@ -95,6 +95,9 @@ class SocketEditor extends Component {
             }
         }
 
+        if (this.multiCursor)
+            this.multiCursor.clearCursors();
+
         if (this.props.onUserlist)
             this.props.onUserlist(this.users);
     };
@@ -270,6 +273,7 @@ class SocketEditor extends Component {
                 case 'delta':
                 {
                     this.quill.updateContents(op.delta);
+                    this.multiCursor.applyDelta(op.delta);
                 }
                     break;
 
