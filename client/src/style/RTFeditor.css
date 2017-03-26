@@ -1,16 +1,6 @@
-
-.SocketEditor {
+.RTFE {
     width: 100%;
     height: 100%;
-}
-
-.SocketEditor-textbox {
-    width: 100%;
-    height: 100%;
-    resize: none;
-    border-radius: 3px;
-    border: solid 1px #aaa;
-    box-sizing: border-box;
 }
 
 .quill {

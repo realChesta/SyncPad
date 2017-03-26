@@ -6,7 +6,10 @@ import React, {Component} from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
 const { Range } = ace.acequire('ace/range');
+import RTFeditor from './RTFeditor.js';
+import ReactQuill from 'react-quill';
 
+import 'react-quill/dist/quill.snow.css';
 import './style/SocketEditor.css';
 
 const io = require('socket.io-client');
@@ -61,7 +64,7 @@ class SocketEditor extends Component {
             let index = msg.indexOf(name);
             if (index === -1)
             {
-                this.editor.session.removeMarker(this.cursors[name]);
+                this.ace.session.removeMarker(this.cursors[name]);
                 delete this.cursors[name];
             }
         }
@@ -70,7 +73,7 @@ class SocketEditor extends Component {
             let index = msg.indexOf(name);
             if (index === -1)
             {
-                this.editor.session.removeMarker(this.selections[name]);
+                this.ace.session.removeMarker(this.selections[name]);
                 delete this.selections[name];
             }
         }
@@ -97,10 +100,10 @@ class SocketEditor extends Component {
 
     onChange = (value) =>
     {
-        if (this.editor.curOp && this.editor.curOp.command.name)
+        if (this.ace.curOp && this.ace.curOp.command.name)
         {
             let diff = jsDiff.diffChars(this.oldText, value);
-            let pos = this.editor.getCursorPosition();
+            let pos = this.ace.getCursorPosition();
 
             if (diff)
             {
@@ -129,14 +132,22 @@ class SocketEditor extends Component {
         this.oldText = value;
     };
 
+    onDelta = (content, delta, source, editor) =>
+    {
+        if (source === 'user')
+        {
+            this.socket.emit('op', { type: 'delta', delta });
+        }
+    };
+
     onLoad = (editor) =>
     {
-        this.editor = editor;
-        this.editor.setOption('dragEnabled', false);
-        this.editor.focus();
-        this.editor.selection.on('changeCursor', this.onCursor);
-        this.editor.selection.on('changeSelection', this.onSelection);
-        this.oldText = this.editor.getValue();
+        this.ace = editor;
+        this.ace.setOption('dragEnabled', false);
+        this.ace.focus();
+        this.ace.selection.on('changeCursor', this.onCursor);
+        this.ace.selection.on('changeSelection', this.onSelection);
+        this.oldText = this.ace.getValue();
     };
 
     onCursor = (a, selection) =>
@@ -169,77 +180,92 @@ class SocketEditor extends Component {
 
     onOp = (op) =>
     {
-        // let pos = this.editor.getCursorPosition();
-        let selection = this.editor.getSelectionRange();
-        let cancelCursor = false;
-
-        switch (op.type)
+        if (this.ace)
         {
-            case 'set':
-            {
-                this.editor.setValue(op.content);
-            }
-                break;
+            // let pos = this.ace.getCursorPosition();
+            let selection = this.ace.getSelectionRange();
+            let cancelCursor = false;
 
-            case 'add':
+            switch (op.type)
             {
-                this.editor.session.insert(op.position, op.content);
-            }
-                break;
-
-            case 'remove':
-            {
-                let index = this.editor.session.doc.positionToIndex(op.position) + op.length;
-                let newPos = this.editor.session.doc.indexToPosition(index);
-                let range = new Range(op.position.row, op.position.column, newPos.row, newPos.column);
-                this.editor.session.remove(range);
-            }
-                break;
-
-            case 'cursor':
-            {
-                cancelCursor = true;
-                if (this.cursors.hasOwnProperty(op.user))
+                case 'set':
                 {
-                    this.editor.session.removeMarker(this.cursors[op.user]);
-                    delete this.cursors[op.user];
+                    this.ace.setValue(op.content);
                 }
+                    break;
 
-                if (this.users.hasOwnProperty(op.user))
+                case 'add':
                 {
-                    let obj = this.editor.session.addDynamicMarker({
-                        update: (html, markerLayer, session, config) => this.updateRemoteCursor(html, markerLayer, config, op.position, this.users[op.user])
-                    });
-
-                    this.cursors[op.user] = obj.id;
+                    this.ace.session.insert(op.position, op.content);
                 }
-            }
-                break;
+                    break;
 
-            case 'selection':
+                case 'remove':
+                {
+                    let index = this.ace.session.doc.positionToIndex(op.position) + op.length;
+                    let newPos = this.ace.session.doc.indexToPosition(index);
+                    let range = new Range(op.position.row, op.position.column, newPos.row, newPos.column);
+                    this.ace.session.remove(range);
+                }
+                    break;
+
+                case 'cursor':
+                {
+                    cancelCursor = true;
+                    if (this.cursors.hasOwnProperty(op.user))
+                    {
+                        this.ace.session.removeMarker(this.cursors[op.user]);
+                        delete this.cursors[op.user];
+                    }
+
+                    if (this.users.hasOwnProperty(op.user))
+                    {
+                        let obj = this.ace.session.addDynamicMarker({
+                            update: (html, markerLayer, session, config) => this.updateRemoteCursor(html, markerLayer, config, op.position, this.users[op.user])
+                        });
+
+                        this.cursors[op.user] = obj.id;
+                    }
+                }
+                    break;
+
+                case 'selection':
+                {
+                    cancelCursor = true;
+                    if (this.selections.hasOwnProperty(op.user))
+                    {
+                        this.ace.session.removeMarker(this.selections[op.user]);
+                        delete this.selections[op.user];
+                    }
+
+                    if (this.users.hasOwnProperty(op.user) && !op.empty)
+                    {
+                        let obj = this.ace.session.addDynamicMarker({
+                            update: (html, markerLayer, session, config) => this.updateRemoteSelection(html, markerLayer, config, op.range, this.users[op.user])
+                        });
+
+                        this.selections[op.user] = obj.id;
+                    }
+                }
+                    break;
+            }
+
+            if (this.ace && !cancelCursor)
+                this.ace.selection.setRange(selection);
+            // this.ace.selection.moveTo(pos.row, pos.column);
+        }
+        else if (this.quill)
+        {
+            switch (op.type)
             {
-                cancelCursor = true;
-                if (this.selections.hasOwnProperty(op.user))
+                case 'delta':
                 {
-                    this.editor.session.removeMarker(this.selections[op.user]);
-                    delete this.selections[op.user];
+                    this.quill.updateContents(op.delta);
                 }
-
-                if (this.users.hasOwnProperty(op.user) && !op.empty)
-                {
-                    let obj = this.editor.session.addDynamicMarker({
-                        update: (html, markerLayer, session, config) => this.updateRemoteSelection(html, markerLayer, config, op.range, this.users[op.user])
-                    });
-
-                    this.selections[op.user] = obj.id;
-                }
-            }
                 break;
+            }
         }
 
-        if (!cancelCursor)
-            this.editor.selection.setRange(selection);
-        // this.editor.selection.moveTo(pos.row, pos.column);
     };
 
     updateRemoteCursor = (html, markerLayer, config, pos, color) =>
@@ -262,26 +288,89 @@ class SocketEditor extends Component {
     {
         this.socket.emit('snapshot',
             {
-                content: this.editor.getValue(),
+                content: this.ace.getValue(),
                 user: user
             });
     };
 
     render()
     {
+        var editor;
+
+        if (this.props.mode === 'ace')
+        {
+            editor = <AceEditor
+                name="ace-editor"
+                width="100%"
+                height="100%"
+                showPrintMargin={false}
+                focus={true}
+                className="SocketEditor-textbox"
+                onLoad={this.onLoad}
+                onChange={this.onChange}
+                value={this.oldText}
+            />;
+        }
+        else if (this.props.mode === 'rtf')
+        {
+            let modules = {
+                // syntax: true,
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],       // toggled buttons
+                    ['blockquote', 'code-block'],                    // blocks
+                    [{ 'header': 1 }, { 'header': 2 }],              // custom button values
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],    // lists
+                    [{ 'script': 'sub' }, { 'script': 'super' }],     // superscript/subscript
+                    [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
+                    [{ 'direction': 'rtl' }],                        // text direction
+                    [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],       // header dropdown
+                    [{ 'color': [] }, { 'background': [] }],         // dropdown with defaults
+                    [{ 'font': [] }],                                // font family
+                    [{ 'align': [] }],                               // text align
+                    ['link', 'image', 'video'],
+                    ['clean'],
+                ]
+            };
+
+            let formats = [
+                'header', 'font', 'background', 'color', 'code', 'size',
+                'bold', 'italic', 'underline', 'strike', 'blockquote',
+                'list', 'bullet', 'indent', 'script', 'align', 'direction',
+                'link', 'image', 'code-block', 'formula', 'video'
+            ];
+
+            editor = <div className="SocketEditor">
+                <ReactQuill
+                    className="SocketEditor"
+                    theme="snow"
+                    modules={modules}
+                    formats={formats}
+                    ref={(el) =>
+                    {
+                        if (el)
+                        {
+                            this.quill = el.getEditor();
+                        }
+                    }}
+                    onChange={this.onDelta}
+                />
+            </div>;
+
+            // editor = <RTFeditor
+            //     className="SocketEditor-textbox"
+            //     onDelta={this.onDelta}
+            // />;
+
+        }
+        else if (this.props.onDisconnect)
+        {
+            this.props.onDisconect();
+        }
+
         return (
             <div className="SocketEditor">
-                <AceEditor
-                    name="ace-editor"
-                    width="100%"
-                    height="100%"
-                    showPrintMargin={false}
-                    focus={true}
-                    className="SocketEditor-textbox"
-                    onLoad={this.onLoad}
-                    onChange={this.onChange}
-                    value={this.oldText}
-                />;
+                {editor}
             </div>
         );
     }

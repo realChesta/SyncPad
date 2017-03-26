@@ -104,6 +104,7 @@ class EditingApp extends Component {
                 <div className="EA-body">
                     <div className="EA-body-editor">
                         <SocketEditor
+                            mode="rtf"
                             session={this.props.session}
                             username={this.props.username}
                             onDisconnect={this.onSocketDisconnect}
