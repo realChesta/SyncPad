@@ -8,6 +8,7 @@ import ace from 'brace';
 const { Range } = ace.acequire('ace/range');
 import RTFeditor from './RTFeditor.js';
 import ReactQuill from 'react-quill';
+import MultiCursor from './multi-cursor.js';
 
 import 'react-quill/dist/quill.snow.css';
 import './style/SocketEditor.css';
@@ -140,6 +141,14 @@ class SocketEditor extends Component {
         }
     };
 
+    onQuillSelectionChange = (range, source, editor) =>
+    {
+        if (source === 'user')
+        {
+            this.socket.emit('op', { type: 'cursor', user: this.props.username, position: range.index })
+        }
+    };
+
     onLoad = (editor) =>
     {
         this.ace = editor;
@@ -262,21 +271,32 @@ class SocketEditor extends Component {
                 {
                     this.quill.updateContents(op.delta);
                 }
-                break;
+                    break;
+
+                case 'cursor':
+                {
+                    this.multiCursor.setCursor(op.user, op.position, op.user, this.getRGBA(this.users[op.user]));
+                }
+                    break;
             }
         }
 
     };
 
+    getRGBA(color)
+    {
+        return "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.5)";
+    }
+
     updateRemoteCursor = (html, markerLayer, config, pos, color) =>
     {
-        let style = "position: absolute; border-left: solid 2px rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.5);";
+        let style = "position: absolute; border-left: solid 2px " + this.getRGBA(color) + ";";
         markerLayer.drawSingleLineMarker(html, new Range(pos.row, pos.column, pos.row, pos.column + 1), '', config, 0, style);
     };
 
     updateRemoteSelection = (html, markerLayer, config, range, color) =>
     {
-        let style = "position: absolute; background-color: rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.5);";
+        let style = "position: absolute; background-color: " + this.getRGBA(color) + ";";
 
         if (range.start.row !== range.end.row)
             markerLayer.drawMultiLineMarker(html, range, '', config, style);
@@ -351,9 +371,11 @@ class SocketEditor extends Component {
                         if (el)
                         {
                             this.quill = el.getEditor();
+                            this.multiCursor = new MultiCursor(this.quill, {});
                         }
                     }}
                     onChange={this.onDelta}
+                    onChangeSelection={this.onQuillSelectionChange}
                 />
             </div>;
 
