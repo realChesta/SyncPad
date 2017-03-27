@@ -32,25 +32,26 @@ class ModeSwitch extends Component {
     render()
     {
         return (
-            <div className="ModeSwitch-container">
-                <p className="ModeSwitch-text-rtf">{"Aa"}</p>
-                <div className="ModeSwitch" onClick={this.onClick}>
-                    <Motion onClick={this.onClick} style={{
-                        x: spring(this.getMode() ? 16 : 0),
-                        r: spring(this.getMode() ? 208 : 92),
-                        g: spring(this.getMode() ? 88 : 133),
-                        b: spring(this.getMode() ? 42 : 214),
-                    }}>
-                        {({x, r, g, b}) =>
+            <Motion onClick={this.onClick} style={{
+                x: spring(this.getMode() ? 16 : 0),
+                r: spring(this.getMode() ? 208 : 92),
+                g: spring(this.getMode() ? 88 : 133),
+                b: spring(this.getMode() ? 42 : 214),
+                s: spring(this.getMode() ? 60: 0),
+            }}>
+                {({x, r, g, b, s}) =>
+                    <div className="ModeSwitch-container">
+                        <p className="ModeSwitch-text-rtf" style={{color: "hsl(220," + Math.abs(Math.round(60 - s)) + "%, 60%)"}}>{"Aa"}</p>
+                        <div className="ModeSwitch" onClick={this.onClick}>
                             <div className="ModeSwitch-nob" style={{
                                 transform: "translateX(" + x + "px)",
-                                backgroundColor: "rgb(" + Math.round(r) + "," + Math.round(g) + "," + Math.round(b) + ")"
+                                backgroundColor: "rgb(" + Math.round(r) + "," + Math.round(g) + "," + Math.round(b) + ")",
                             }}/>
-                        }
-                    </Motion>
-                </div>
-                <p className="ModeSwitch-text-code">{"</>"}</p>
-            </div>
+                        </div>
+                        <p className="ModeSwitch-text-code" style={{color: "hsl(17, " + Math.round(s) + "%, 60%)"}}>{"</>"}</p>
+                    </div>
+                }
+            </Motion>
         );
     }
 }

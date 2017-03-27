@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import './style/SessionDisplayer.css';
+import './style/ModeSwitch.css';
 
 class SessionDisplayer extends Component {
 
@@ -21,11 +22,13 @@ class SessionDisplayer extends Component {
             let ch = this.clickHandler;
             rows = this.props.data.map(function (d)
             {
+                let modeItem = <p className={d.mode === 'rtf' ? "ModeSwitch-text-rtf" : "ModeSwitch-text-code"}>{d.mode === 'rtf' ? "Aa" : "</>"}</p>;
+
                 return (
                     <tr key={d.name}>
                         <td>{d.name}</td>
+                        <td>{modeItem}</td>
                         <td>{d.users}</td>
-                        <td>{d.mode}</td>
                         <td>
                             <button mode={d.mode} id={d.name} onClick={ch} className="g-button c-button">Connect</button>
                         </td>
@@ -40,8 +43,8 @@ class SessionDisplayer extends Component {
                     (<table className="SD-table">
                         <tr>
                             <th>Session name</th>
-                            <th>Connected users</th>
                             <th>Mode</th>
+                            <th>Connected users</th>
                             <th/>
                         </tr>
                         {rows}

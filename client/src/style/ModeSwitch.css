@@ -26,7 +26,7 @@
     float: left;
     clear: none;
     margin: 5px;
-    color: rgb(208, 88, 42);
+    color: hsl(17, 60%, 60%);
 }
 
 .ModeSwitch-text-rtf {
@@ -34,5 +34,5 @@
     float: left;
     clear: none;
     margin: 5px;
-    color: rgb(92, 133, 214);
+    color: hsl(220, 60%, 60%);
 }

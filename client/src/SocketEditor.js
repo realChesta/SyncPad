@@ -31,7 +31,7 @@ class SocketEditor extends Component {
 
     componentDidMount()
     {
-        this.socket = io.connect('http://172.20.10.6/');
+        this.socket = io.connect('http://localhost/');
         this.socket.on('connect', this.onConnect);
         this.socket.on('connect_failed', this.onDisconnect);
         this.socket.on('error', this.onDisconnect);
