@@ -12,9 +12,10 @@ class ModeIcon extends Component {
     {
         return (
             <p
-                className={this.props.mode === 'rtf' ? "ModeIcon-rtf" : "ModeIcon-code"}
+                className={this.props.mode === 'rtf' ? "ModeIcon ModeIcon-rtf" : "ModeIcon ModeIcon-code"}
                 style={this.props.style}>
                 {this.props.mode === 'rtf' ? "Aa" : "</>"}
+                <span className="tooltip">{this.props.mode === 'rtf' ? "Rich Text mode" : "Code mode"}</span>
             </p>
         );
     }
