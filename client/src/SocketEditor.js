@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
-const {Range} = ace.acequire('ace/range');
+const { Range } = ace.acequire('ace/range');
 import ReactQuill from 'react-quill';
 import MultiCursor from './multi-cursor.js';
 
@@ -23,7 +23,7 @@ class SocketEditor extends Component {
     {
         super(props);
         this.oldText = '';
-        this.state = {cursors: []};
+        this.state = { cursors: [] };
         this.cursors = {};
         this.selections = {};
         this.users = {};
@@ -40,7 +40,7 @@ class SocketEditor extends Component {
 
     onConnect = () =>
     {
-        this.socket.emit('auth', {session: this.props.session, name: this.props.username, mode: this.props.mode});
+        this.socket.emit('auth', { session: this.props.session, name: this.props.username, mode: this.props.mode });
         this.socket.on('authResponse', (msg) => this.onAuthed(msg));
         this.socket.on('userlist', (msg) => this.onUserlist(msg));
         this.socket.on('op', (op) => this.onOp(op));
@@ -91,8 +91,8 @@ class SocketEditor extends Component {
         {
             if (msg[i] !== this.props.username && !this.users.hasOwnProperty(msg[i]))
             {
-                let colorData = randomColor({luminosity: 'bright', format: 'rgbArray'});
-                this.users[msg[i]] = {r: colorData[0], g: colorData[1], b: colorData[2]};
+                let colorData = randomColor({ luminosity: 'bright', format: 'rgbArray' });
+                this.users[msg[i]] = { r: colorData[0], g: colorData[1], b: colorData[2] };
             }
         }
 
@@ -141,7 +141,7 @@ class SocketEditor extends Component {
     {
         if (source === 'user')
         {
-            this.socket.emit('op', {type: 'delta', delta});
+            this.socket.emit('op', { type: 'delta', delta });
         }
     };
 
@@ -149,7 +149,7 @@ class SocketEditor extends Component {
     {
         if (source === 'user')
         {
-            this.socket.emit('op', {type: 'cursor', user: this.props.username, position: range.index})
+            this.socket.emit('op', { type: 'cursor', user: this.props.username, position: range.index })
         }
     };
 
@@ -318,6 +318,23 @@ class SocketEditor extends Component {
             });
     };
 
+    fixQuillHeight = () =>
+    {
+        try
+        {
+            let toolbar = document.getElementsByClassName('ql-toolbar')[0];
+            let quill = document.getElementsByClassName('ql-container')[0];
+            if (toolbar && quill)
+            {
+                quill.style.height = 'calc(100% - ' + (toolbar.clientHeight + 2) + 'px)';
+            }
+        }
+        catch (exception)
+        {
+
+        }
+    };
+
     render()
     {
         let editor;
@@ -343,16 +360,16 @@ class SocketEditor extends Component {
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],       // toggled buttons
                     ['blockquote', 'code-block'],                    // blocks
-                    [{'header': 1}, {'header': 2}],              // custom button values
-                    [{'list': 'ordered'}, {'list': 'bullet'}],    // lists
-                    [{'script': 'sub'}, {'script': 'super'}],     // superscript/subscript
-                    [{'indent': '-1'}, {'indent': '+1'}],         // outdent/indent
-                    [{'direction': 'rtl'}],                        // text direction
-                    [{'size': ['small', false, 'large', 'huge']}], // custom dropdown
-                    [{'header': [1, 2, 3, 4, 5, 6, false]}],       // header dropdown
-                    [{'color': []}, {'background': []}],         // dropdown with defaults
-                    [{'font': []}],                                // font family
-                    [{'align': []}],                               // text align
+                    [{ 'header': 1 }, { 'header': 2 }],              // custom button values
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],    // lists
+                    [{ 'script': 'sub' }, { 'script': 'super' }],     // superscript/subscript
+                    [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
+                    [{ 'direction': 'rtl' }],                        // text direction
+                    [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],       // header dropdown
+                    [{ 'color': [] }, { 'background': [] }],         // dropdown with defaults
+                    [{ 'font': [] }],                                // font family
+                    [{ 'align': [] }],                               // text align
                     ['link', 'image', 'video'],
                     ['clean'],
                 ]
@@ -377,6 +394,7 @@ class SocketEditor extends Component {
                         {
                             this.quill = el.getEditor();
                             this.multiCursor = new MultiCursor(this.quill, {});
+                            this.fixQuillHeight();
                         }
                     }}
                     onChange={this.onDelta}
