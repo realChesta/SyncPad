@@ -1,8 +1,9 @@
 module.exports = class Session {
 
-    constructor(name, user, onSessionEmpty) {
+    constructor(name, user, mode, onSessionEmpty) {
         this.name = name;
         this.users = [user];
+        this.mode = mode;
         this.onSessionEmpty = onSessionEmpty;
         this.registerSocket(user.socket);
     }

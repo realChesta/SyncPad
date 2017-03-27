@@ -12,7 +12,8 @@ function getInfo() {
     for (let sessions in sessionList) {
         let obj = {
             name: sessions,
-            users: sessionList[sessions].users.length
+            users: sessionList[sessions].users.length,
+            mode: sessionList[sessions].mode
         };
         listSessions.push(obj);
     }
@@ -57,7 +58,7 @@ function onAuth(socket, data) {
     console.log('auth');
     if (!checkSession(data)) {
         let userData = {socket: socket, name: data.name};
-        sessionList[data.session] = new Session(data.session, userData, onSessionEmpty);
+        sessionList[data.session] = new Session(data.session, userData, data.mode, onSessionEmpty);
         let msg = {state: true, msg: "Successfully created a new session."};
         socket.emit('authResponse', msg);
         console.log(data.name + (" created a session named " + data.session));
