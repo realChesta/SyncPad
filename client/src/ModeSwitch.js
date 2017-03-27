@@ -34,7 +34,7 @@ class ModeSwitch extends Component {
     {
         return (
             <Motion onClick={this.onClick} style={{
-                x: spring(this.getMode() ? 16 : 0),
+                x: spring(this.getMode() ? 16 : 0, {stiffness: 200, damping: 15}),
                 r: spring(this.getMode() ? 208 : 92),
                 g: spring(this.getMode() ? 88 : 133),
                 b: spring(this.getMode() ? 42 : 214),

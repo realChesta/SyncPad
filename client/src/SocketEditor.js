@@ -290,7 +290,7 @@ class SocketEditor extends Component {
 
     getRGBA(color)
     {
-        return "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.5)";
+        return "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.8)";
     }
 
     updateRemoteCursor = (html, markerLayer, config, pos, color) =>
@@ -311,11 +311,18 @@ class SocketEditor extends Component {
 
     onGetContent = (user) =>
     {
-        this.socket.emit('snapshot',
-            {
-                content: this.ace.getValue(),
-                user: user
-            });
+        if (this.ace)
+        {
+            this.socket.emit('snapshot',
+                {
+                    content: this.ace.getValue(),
+                    user: user
+                });
+        }
+        else if (this.quill)
+        {
+            this.socket.emit('op', {type: 'delta', delta: this.quill.getContents()});
+        }
     };
 
     fixQuillHeight = () =>

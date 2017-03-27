@@ -25,6 +25,7 @@ html, body {
     float: left;
     overflow: auto;
     cursor: pointer;
+    text-decoration: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -142,15 +143,20 @@ html, body {
 .EA-body-sidebar {
     flex: 0 1 auto;
     width: 150px;
+    min-width: 150px;
+    max-width: 150px;
     /*margin: 10px;*/
     background-color: white;
     margin: 20px 20px 20px 0;
     border-radius: 3px;
-    border: solid 1px #aaa;
+    border: solid 1px #ccc;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .EA-body-sidebar-you {
-    margin: 16px 16px 16px 15%;
+    margin: 16px 15% 16px 15%;
+    max-width: 70%;
     text-align: left;
     float: left;
 }
@@ -166,6 +172,8 @@ html, body {
 .EA-body-sidebar-item {
     margin-top: 16px;
     margin-left: 15%;
+    margin-right: 15%;
+    max-width: 70%;
     overflow: auto;
 }
 

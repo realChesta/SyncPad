@@ -79,7 +79,7 @@ class EditingApp extends Component {
                     <div className="EA-body-sidebar-item" key={u}>
                         <div
                             className="EA-body-sidebar-item-colorstrip"
-                            style={{backgroundColor: "rgba(" + this.state.users[u].r + ", " + this.state.users[u].g + ", " + this.state.users[u].b + ", 0.5)"}}
+                            style={{backgroundColor: "rgb(" + this.state.users[u].r + ", " + this.state.users[u].g + ", " + this.state.users[u].b + ")"}}
                         />
                         <p className="EA-body-sidebar-item-text">{u}</p>
                     </div>);
@@ -90,17 +90,17 @@ class EditingApp extends Component {
 
         return (
             <div className="EA">
-                <a className="EA-head" href="/">
-                    <div className="EA-head-logo">
+                <div className="EA-head">
+                    <a className="EA-head-logo" href="/">
                         <img src={logo} className="EA-head-logo-image" alt="logo"/>
                         <p className="EA-head-logo-text">SyncPad</p>
-                    </div>
+                    </a>
                     <div className="EA-head-state">
                         <div className={"EA-orb " + orbclass}/>
                         <p className="EA-head-state-text">{this.state.statusText}</p>
                     </div>
                     <p className="EA-head-title">{this.props.session}</p>
-                </a>
+                </div>
                 <div className="EA-body">
                     <div className="EA-body-editor">
                         <SocketEditor
