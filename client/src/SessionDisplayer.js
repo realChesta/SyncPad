@@ -41,6 +41,7 @@ class SessionDisplayer extends Component {
             <div className="SD">
                 {rows.length > 0 ?
                     (<table className="SD-table">
+                        <tbody>
                         <tr>
                             <th>Session name</th>
                             <th>Mode</th>
@@ -48,6 +49,7 @@ class SessionDisplayer extends Component {
                             <th/>
                         </tr>
                         {rows}
+                        </tbody>
                     </table>)
                     :
                     (<div className="SD-empty">

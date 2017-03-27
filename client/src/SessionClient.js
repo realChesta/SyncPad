@@ -24,7 +24,7 @@ class SessionClient {
         }
         catch (error)
         {
-            console.log('could not connect: ' + error);
+            console.log('could not connect: ', error);
         }
     };
 
