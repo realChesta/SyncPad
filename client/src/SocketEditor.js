@@ -321,7 +321,7 @@ class SocketEditor extends Component {
         }
         else if (this.quill)
         {
-            this.socket.emit('op', {type: 'delta', delta: this.quill.getContents()});
+            this.socket.emit('op', { type: 'delta', delta: this.quill.getContents() });
         }
     };
 
@@ -348,17 +348,22 @@ class SocketEditor extends Component {
 
         if (this.props.mode === 'code')
         {
-            editor = <AceEditor
-                name="ace-editor"
-                width="100%"
-                height="100%"
-                showPrintMargin={false}
-                focus={true}
-                className="SocketEditor-textbox"
-                onLoad={this.onLoad}
-                onChange={this.onChange}
-                value={this.oldText}
-            />;
+            editor = <div className="SocketEditor">
+                <div className="SocketEditor-toolbar">
+
+                </div>
+                <AceEditor
+                    name="ace-editor"
+                    width="100%"
+                    height="calc(100% - 42px)"
+                    showPrintMargin={false}
+                    focus={true}
+                    className="SocketEditor-textbox"
+                    onLoad={this.onLoad}
+                    onChange={this.onChange}
+                    value={this.oldText}
+                />
+            </div>;
         }
         else if (this.props.mode === 'rtf')
         {

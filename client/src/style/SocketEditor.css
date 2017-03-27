@@ -4,13 +4,24 @@
     height: 100%;
 }
 
+.SocketEditor-toolbar {
+    width: calc(100% - 2px);
+    height: 42px;
+    border: solid 1px #ccc;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    background: #eaecec;
+}
+
 .SocketEditor-textbox {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 42px);
     resize: none;
-    border-radius: 3px;
     border: solid 1px #ccc;
+    border-top: none;
     box-sizing: border-box;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 .quill {
