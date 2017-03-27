@@ -40,29 +40,29 @@ class SwipeTransition extends Component {
         );
     }
 
-    willEnter()
+    willEnter = () =>
     {
         return {
             opacity: 0,
-            x: 5
+            x: this.props.inverse ? -5 : 5
         };
-    }
+    };
 
-    willLeave()
+    willLeave = () =>
     {
         return {
             opacity: spring(0),
-            x: spring(-5)
+            x: spring(this.props.inverse ? 5 : -5)
         };
-    }
+    };
 
-    getStyles()
+    getStyles = () =>
     {
         return {
             opacity: spring(1),
             x: spring(0)
         };
-    }
+    };
 }
 
 export default SwipeTransition;

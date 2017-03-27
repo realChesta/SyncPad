@@ -52,7 +52,7 @@ function refreshData()
     );
 
     rp({
-        url: 'http://localhost/getSessions',
+        url: 'http://172.20.10.6/getSessions',
         timeout: 5000
     })
         .then(function (body)
@@ -60,8 +60,7 @@ function refreshData()
             console.log(body);
             let data = JSON.parse(body);
 
-            console.log("got answer");
-            console.log(data);
+            console.log("session list", body);
 
             ReactDOM.render(
                 <SwipeTransition>
@@ -113,14 +112,23 @@ function onError(msg)
     );
 }
 
-function joinSession(user, session)
+function joinSession(user, session, mode)
 {
+    if (!mode)
+    {
+        console.warn("No mode has been set! using 'code'");
+        mode = 'code';
+    }
+
+    //TODO: implement mode on join
+
     ReactDOM.render(
         <SwipeTransition>
             <EditingApp
                 key="EditingApp"
                 session={session}
                 username={user}
+                mode={mode}
                 onDisconnect={onDisconnect}
                 onError={onError}
             />

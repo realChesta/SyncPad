@@ -1,0 +1,39 @@
+.ModeSwitch {
+    height: 16px;
+    width: 32px;
+    background-color: #b9b9b9;
+    border-radius: 8px;
+    float: left;
+    clear: none;
+    margin: 5px;
+}
+
+.ModeSwitch-nob {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background-color: black;
+    box-shadow: 1px 1px 2px gray;
+}
+
+.ModeSwitch-container {
+    clear: both;
+    overflow: auto;
+}
+
+.ModeSwitch-text-code {
+    font-family: monospace;
+    font-weight: bold;
+    float: left;
+    clear: none;
+    margin: 5px;
+    color: rgb(208, 88, 42);
+}
+
+.ModeSwitch-text-rtf {
+    font-family: sans-serif;
+    float: left;
+    clear: none;
+    margin: 5px;
+    color: rgb(92, 133, 214);
+}

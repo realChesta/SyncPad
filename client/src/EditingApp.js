@@ -13,7 +13,7 @@ class EditingApp extends Component {
     {
         super(props);
 
-        this.state = { stateCode: 1, statusText: "connecting..." };
+        this.state = {stateCode: 1, statusText: "connecting..."};
     }
 
     componentDidMount()
@@ -29,7 +29,7 @@ class EditingApp extends Component {
 
     onSocketDisconnect = () =>
     {
-        this.setState({ stateCode: 2, statusText: "disconnected" });
+        this.setState({stateCode: 2, statusText: "disconnected"});
         this.returnError("Connection to the session was interrupted!");
     };
 
@@ -37,7 +37,7 @@ class EditingApp extends Component {
     {
         if (data.state)
         {
-            this.setState({ stateCode: 0, statusText: "connected" });
+            this.setState({stateCode: 0, statusText: "connected"});
         }
         else
         {
@@ -48,7 +48,7 @@ class EditingApp extends Component {
     onUserlist = (users) =>
     {
         console.log("userlist:" + JSON.stringify(users));
-        this.setState({ users: users });
+        this.setState({users: users});
     };
 
     render()
@@ -79,7 +79,7 @@ class EditingApp extends Component {
                     <div className="EA-body-sidebar-item" key={u}>
                         <div
                             className="EA-body-sidebar-item-colorstrip"
-                            style={{ backgroundColor: "rgba(" + this.state.users[u].r + ", " + this.state.users[u].g + ", " + this.state.users[u].b + ", 0.5)" }}
+                            style={{backgroundColor: "rgba(" + this.state.users[u].r + ", " + this.state.users[u].g + ", " + this.state.users[u].b + ", 0.5)"}}
                         />
                         <p className="EA-body-sidebar-item-text">{u}</p>
                     </div>);
@@ -104,7 +104,7 @@ class EditingApp extends Component {
                 <div className="EA-body">
                     <div className="EA-body-editor">
                         <SocketEditor
-                            mode="rtf"
+                            mode={this.props.mode}
                             session={this.props.session}
                             username={this.props.username}
                             onDisconnect={this.onSocketDisconnect}

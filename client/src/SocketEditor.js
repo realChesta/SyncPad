@@ -5,8 +5,7 @@
 import React, {Component} from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
-const { Range } = ace.acequire('ace/range');
-import RTFeditor from './RTFeditor.js';
+const {Range} = ace.acequire('ace/range');
 import ReactQuill from 'react-quill';
 import MultiCursor from './multi-cursor.js';
 
@@ -17,12 +16,14 @@ const io = require('socket.io-client');
 const jsDiff = require('diff');
 const randomColor = require('randomcolor');
 
+//TODO: highlightJS
+
 class SocketEditor extends Component {
     constructor(props)
     {
         super(props);
         this.oldText = '';
-        this.state = { cursors: [] };
+        this.state = {cursors: []};
         this.cursors = {};
         this.selections = {};
         this.users = {};
@@ -30,7 +31,7 @@ class SocketEditor extends Component {
 
     componentDidMount()
     {
-        this.socket = io.connect('http://localhost/');
+        this.socket = io.connect('http://172.20.10.6/');
         this.socket.on('connect', this.onConnect);
         this.socket.on('connect_failed', this.onDisconnect);
         this.socket.on('error', this.onDisconnect);
@@ -39,7 +40,7 @@ class SocketEditor extends Component {
 
     onConnect = () =>
     {
-        this.socket.emit('auth', { session: this.props.session, name: this.props.username });
+        this.socket.emit('auth', {session: this.props.session, name: this.props.username, mode: this.props.mode});
         this.socket.on('authResponse', (msg) => this.onAuthed(msg));
         this.socket.on('userlist', (msg) => this.onUserlist(msg));
         this.socket.on('op', (op) => this.onOp(op));
@@ -49,7 +50,7 @@ class SocketEditor extends Component {
     onDisconnect = () =>
     {
         if (this.props.onDisconnect)
-            this.props.onDisconect();
+            this.props.onDisconnect();
     };
 
     onAuthed = (msg) =>
@@ -90,8 +91,8 @@ class SocketEditor extends Component {
         {
             if (msg[i] !== this.props.username && !this.users.hasOwnProperty(msg[i]))
             {
-                let colorData = randomColor({ luminosity: 'bright', format: 'rgbArray' });
-                this.users[msg[i]] = { r: colorData[0], g: colorData[1], b: colorData[2] };
+                let colorData = randomColor({luminosity: 'bright', format: 'rgbArray'});
+                this.users[msg[i]] = {r: colorData[0], g: colorData[1], b: colorData[2]};
             }
         }
 
@@ -140,7 +141,7 @@ class SocketEditor extends Component {
     {
         if (source === 'user')
         {
-            this.socket.emit('op', { type: 'delta', delta });
+            this.socket.emit('op', {type: 'delta', delta});
         }
     };
 
@@ -148,7 +149,7 @@ class SocketEditor extends Component {
     {
         if (source === 'user')
         {
-            this.socket.emit('op', { type: 'cursor', user: this.props.username, position: range.index })
+            this.socket.emit('op', {type: 'cursor', user: this.props.username, position: range.index})
         }
     };
 
@@ -319,9 +320,9 @@ class SocketEditor extends Component {
 
     render()
     {
-        var editor;
+        let editor;
 
-        if (this.props.mode === 'ace')
+        if (this.props.mode === 'code')
         {
             editor = <AceEditor
                 name="ace-editor"
@@ -342,16 +343,16 @@ class SocketEditor extends Component {
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],       // toggled buttons
                     ['blockquote', 'code-block'],                    // blocks
-                    [{ 'header': 1 }, { 'header': 2 }],              // custom button values
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],    // lists
-                    [{ 'script': 'sub' }, { 'script': 'super' }],     // superscript/subscript
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
-                    [{ 'direction': 'rtl' }],                        // text direction
-                    [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],       // header dropdown
-                    [{ 'color': [] }, { 'background': [] }],         // dropdown with defaults
-                    [{ 'font': [] }],                                // font family
-                    [{ 'align': [] }],                               // text align
+                    [{'header': 1}, {'header': 2}],              // custom button values
+                    [{'list': 'ordered'}, {'list': 'bullet'}],    // lists
+                    [{'script': 'sub'}, {'script': 'super'}],     // superscript/subscript
+                    [{'indent': '-1'}, {'indent': '+1'}],         // outdent/indent
+                    [{'direction': 'rtl'}],                        // text direction
+                    [{'size': ['small', false, 'large', 'huge']}], // custom dropdown
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],       // header dropdown
+                    [{'color': []}, {'background': []}],         // dropdown with defaults
+                    [{'font': []}],                                // font family
+                    [{'align': []}],                               // text align
                     ['link', 'image', 'video'],
                     ['clean'],
                 ]
@@ -364,7 +365,7 @@ class SocketEditor extends Component {
                 'link', 'image', 'code-block', 'formula', 'video'
             ];
 
-            editor = <div className="SocketEditor">
+            editor =
                 <ReactQuill
                     className="SocketEditor"
                     theme="snow"
@@ -380,8 +381,7 @@ class SocketEditor extends Component {
                     }}
                     onChange={this.onDelta}
                     onChangeSelection={this.onQuillSelectionChange}
-                />
-            </div>;
+                />;
 
             // editor = <RTFeditor
             //     className="SocketEditor-textbox"
@@ -391,13 +391,11 @@ class SocketEditor extends Component {
         }
         else if (this.props.onDisconnect)
         {
-            this.props.onDisconect();
+            this.props.onDisconnect();
         }
 
         return (
-            <div className="SocketEditor">
-                {editor}
-            </div>
+            editor
         );
     }
 }

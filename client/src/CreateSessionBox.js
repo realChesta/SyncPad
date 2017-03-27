@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 
 import './style/InputBox.css'
+import ModeSwitch from "./ModeSwitch";
 
 class CreateSessionBox extends Component {
 
@@ -12,24 +13,24 @@ class CreateSessionBox extends Component {
     {
         super(props);
 
-        this.state = { username: '', sessionName: ''};
+        this.state = {username: '', sessionName: '', mode: 'rtf'};
     }
 
     handleUserChange = (e) =>
     {
-        this.setState({ username: e.target.value });
+        this.setState({username: e.target.value});
     };
 
     handleSessionChange = (e) =>
     {
-        this.setState({ sessionName: e.target.value });
+        this.setState({sessionName: e.target.value});
     };
 
     handleKeyUp = (e) =>
     {
         if ((e.keyCode === 13) && this.state.sessionName && this.state.username)
         {
-            this.props.onDone(this.state.username, this.state.sessionName);
+            this.props.onDone(this.state.username, this.state.sessionName, this.state.mode);
         }
         else if (e.keyCode === 27)
         {
@@ -37,9 +38,9 @@ class CreateSessionBox extends Component {
         }
     };
 
-    handleSelect = (e) =>
+    handleModeChange = (mode) =>
     {
-        console.log('selected: ' + e.target.id);
+        this.setState({mode: mode});
     };
 
     handleClose = (e) =>
@@ -49,7 +50,7 @@ class CreateSessionBox extends Component {
 
     handleConfirm = (e) =>
     {
-        this.props.onDone(this.state.username, this.state.sessionName)
+        this.props.onDone(this.state.username, this.state.sessionName, this.state.mode)
     };
 
     componentDidMount()
@@ -67,15 +68,17 @@ class CreateSessionBox extends Component {
                 </div>
                 <div className="IB-body">
                     <p className="IB-body-text">{this.props.userText}</p>
-                    <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} className="IB-body-input" ref={(input) => { this.userInput = input; }}/>
+                    <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} className="IB-body-input"
+                           ref={(input) =>
+                           {
+                               this.userInput = input;
+                           }}/>
                     <p className="IB-body-text">{this.props.sessionText}</p>
                     <input onChange={this.handleSessionChange} onKeyUp={this.handleKeyUp} className="IB-body-input"/>
                     <p className="IB-body-text">{this.props.selectText}</p>
-                    <select className="IB-body-select" onInput={this.handleSelect}>
-                        <option id="js">JavaScript</option>
-                        <option>Rich Text</option>
-                    </select>
-                    <button disabled={!(this.state.sessionName && this.state.username)} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
+                    <ModeSwitch onChange={this.handleModeChange}/>
+                    <button disabled={!(this.state.sessionName && this.state.username)} onClick={this.handleConfirm}
+                            className="g-button IB-acceptButton">{this.props.action}</button>
                 </div>
             </div>
         );

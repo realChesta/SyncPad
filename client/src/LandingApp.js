@@ -27,9 +27,9 @@ class LandingApp extends Component {
         document.title = "SyncPad";
     }
 
-    handleJoin = (sname) =>
+    handleJoin = (sname, smode) =>
     {
-        this.setState({input: true, sname: sname});
+        this.setState({input: true, sname: sname, smode: smode});
     };
 
     handleDone = (user) =>
@@ -37,7 +37,7 @@ class LandingApp extends Component {
         this.setState({input: false});
         if (user)
         {
-            this.props.joinHandler(user, this.state.sname);
+            this.props.joinHandler(user, this.state.sname, this.state.smode);
         }
     };
 
@@ -46,13 +46,13 @@ class LandingApp extends Component {
         this.setState({create: true});
     };
 
-    handleCreateDone = (user, session) =>
+    handleCreateDone = (user, session, mode) =>
     {
         this.setState({create: false});
 
         if (user && session)
         {
-            this.props.joinHandler(user, session)
+            this.props.joinHandler(user, session, mode)
         }
     };
 
