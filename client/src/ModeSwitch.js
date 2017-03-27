@@ -35,9 +35,17 @@ class ModeSwitch extends Component {
             <div className="ModeSwitch-container">
                 <p className="ModeSwitch-text-rtf">{"Aa"}</p>
                 <div className="ModeSwitch" onClick={this.onClick}>
-                    <Motion onClick={this.onClick} style={{x: spring(this.getMode() ? 16 : 0)}}>
-                        {({x}) =>
-                            <div className="ModeSwitch-nob" style={{transform: "translateX(" + x + "px)"}}/>
+                    <Motion onClick={this.onClick} style={{
+                        x: spring(this.getMode() ? 16 : 0),
+                        r: spring(this.getMode() ? 208 : 92),
+                        g: spring(this.getMode() ? 88 : 133),
+                        b: spring(this.getMode() ? 42 : 214),
+                    }}>
+                        {({x, r, g, b}) =>
+                            <div className="ModeSwitch-nob" style={{
+                                transform: "translateX(" + x + "px)",
+                                backgroundColor: "rgb(" + Math.round(r) + "," + Math.round(g) + "," + Math.round(b) + ")"
+                            }}/>
                         }
                     </Motion>
                 </div>
