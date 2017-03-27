@@ -24,6 +24,11 @@ html, body {
     width: 120px;
     float: left;
     overflow: auto;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .EA-head-logo-image {

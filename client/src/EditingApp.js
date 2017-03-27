@@ -90,7 +90,7 @@ class EditingApp extends Component {
 
         return (
             <div className="EA">
-                <div className="EA-head">
+                <a className="EA-head" href="/">
                     <div className="EA-head-logo">
                         <img src={logo} className="EA-head-logo-image" alt="logo"/>
                         <p className="EA-head-logo-text">SyncPad</p>
@@ -100,7 +100,7 @@ class EditingApp extends Component {
                         <p className="EA-head-state-text">{this.state.statusText}</p>
                     </div>
                     <p className="EA-head-title">{this.props.session}</p>
-                </div>
+                </a>
                 <div className="EA-body">
                     <div className="EA-body-editor">
                         <SocketEditor

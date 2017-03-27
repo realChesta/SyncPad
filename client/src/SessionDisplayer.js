@@ -12,7 +12,7 @@ class SessionDisplayer extends Component {
 
     clickHandler = (e) =>
     {
-        this.props.connectHandler(e.currentTarget.id, e.currentTarget.mode);
+        this.props.connectHandler(this.props.data[e.currentTarget.id].name, this.props.data[e.currentTarget.id].mode);
     };
 
     render()
@@ -22,15 +22,15 @@ class SessionDisplayer extends Component {
         if (this.props.data)
         {
             let ch = this.clickHandler;
-            rows = this.props.data.map(function (d)
+            rows = this.props.data.map(function (d, i)
             {
                 return (
-                    <tr key={d.name}>
+                    <tr key={i}>
                         <td>{d.name}</td>
                         <td><ModeIcon mode={d.mode}/></td>
                         <td>{d.users}</td>
                         <td>
-                            <button mode={d.mode} id={d.name} onClick={ch} className="g-button c-button">Connect</button>
+                            <button id={i} onClick={ch} className="g-button c-button">Connect</button>
                         </td>
                     </tr>
                 );
