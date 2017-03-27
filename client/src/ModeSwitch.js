@@ -4,6 +4,7 @@
 
 import React, {Component} from 'react';
 import {spring, Motion} from 'react-motion';
+import ModeIcon from './ModeIcon.js';
 
 import './style/ModeSwitch.css';
 
@@ -41,14 +42,14 @@ class ModeSwitch extends Component {
             }}>
                 {({x, r, g, b, s}) =>
                     <div className="ModeSwitch-container">
-                        <p className="ModeSwitch-text-rtf" style={{color: "hsl(220," + Math.abs(Math.round(60 - s)) + "%, 60%)"}}>{"Aa"}</p>
+                        <ModeIcon mode={"rtf"} style={{color: "hsl(220," + Math.abs(Math.round(60 - s)) + "%, 60%)"}}/>
                         <div className="ModeSwitch" onClick={this.onClick}>
                             <div className="ModeSwitch-nob" style={{
                                 transform: "translateX(" + x + "px)",
                                 backgroundColor: "rgb(" + Math.round(r) + "," + Math.round(g) + "," + Math.round(b) + ")",
                             }}/>
                         </div>
-                        <p className="ModeSwitch-text-code" style={{color: "hsl(17, " + Math.round(s) + "%, 60%)"}}>{"</>"}</p>
+                        <ModeIcon mode={"code"} style={{color: "hsl(17, " + Math.round(s) + "%, 60%)"}}/>
                     </div>
                 }
             </Motion>

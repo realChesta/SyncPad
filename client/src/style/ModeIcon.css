@@ -1,0 +1,16 @@
+.ModeIcon-code {
+    font-family: monospace;
+    font-weight: bold;
+    float: left;
+    clear: none;
+    margin: 5px;
+    color: hsl(17, 60%, 60%);
+}
+
+.ModeIcon-rtf {
+    font-family: sans-serif;
+    float: left;
+    clear: none;
+    margin: 5px;
+    color: hsl(220, 60%, 60%);
+}

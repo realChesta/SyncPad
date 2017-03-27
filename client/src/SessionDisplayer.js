@@ -3,6 +3,8 @@
  */
 
 import React, {Component} from 'react';
+import ModeIcon from './ModeIcon.js';
+
 import './style/SessionDisplayer.css';
 import './style/ModeSwitch.css';
 
@@ -22,12 +24,10 @@ class SessionDisplayer extends Component {
             let ch = this.clickHandler;
             rows = this.props.data.map(function (d)
             {
-                let modeItem = <p className={d.mode === 'rtf' ? "ModeSwitch-text-rtf" : "ModeSwitch-text-code"}>{d.mode === 'rtf' ? "Aa" : "</>"}</p>;
-
                 return (
                     <tr key={d.name}>
                         <td>{d.name}</td>
-                        <td>{modeItem}</td>
+                        <td><ModeIcon mode={d.mode}/></td>
                         <td>{d.users}</td>
                         <td>
                             <button mode={d.mode} id={d.name} onClick={ch} className="g-button c-button">Connect</button>
