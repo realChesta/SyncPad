@@ -6,9 +6,10 @@ import React, {Component} from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
 const {Range} = ace.acequire('ace/range');
-import ReactQuill from 'react-quill';
 import MultiCursor from './multi-cursor.js';
 import Select from 'react-select';
+import ReactQuill from 'react-quill';
+import highlightJS from 'highlight.js';
 
 import 'react-quill/dist/quill.snow.css';
 import './style/SocketEditor.css';
@@ -29,6 +30,12 @@ class SocketEditor extends Component {
         this.cursors = {};
         this.selections = {};
         this.users = {};
+    }
+
+    componentWillMount()
+    {
+        console.log(highlightJS);
+        window.hljs = highlightJS;
     }
 
     componentDidMount()
@@ -371,7 +378,7 @@ class SocketEditor extends Component {
                 <AceEditor
                     name="ace-editor"
                     width="100%"
-                    height="calc(100% - 42px)"
+                    height="calc(100% - 55px)"
                     showPrintMargin={false}
                     focus={true}
                     className="SocketEditor-textbox"
@@ -384,7 +391,7 @@ class SocketEditor extends Component {
         else if (this.props.mode === 'rtf')
         {
             let modules = {
-                // syntax: true,
+                syntax: true,
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],       // toggled buttons
                     ['blockquote', 'code-block'],                    // blocks

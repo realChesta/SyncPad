@@ -5,6 +5,7 @@
 import React, {Component} from 'react';
 import logo from './img/syncpad-icon.svg';
 import './style/EditingApp.css';
+
 import SocketEditor from './SocketEditor.js';
 
 class EditingApp extends Component {
