@@ -6,16 +6,30 @@
 
 .SocketEditor-toolbar {
     width: calc(100% - 2px);
-    height: 42px;
+    height: 55px;
     border: solid 1px #ccc;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     background: #eaecec;
+    overflow: visible;
+}
+
+.SocketEditor-select {
+    float:left;
+    clear: none;
+    margin-top: 10px;
+    min-width: 100px;
+}
+
+.SocketEditor-toolbar-label {
+    float:left;
+    clear: none;
+    margin: 16px 8px 16px 16px;
 }
 
 .SocketEditor-textbox {
     width: 100%;
-    height: calc(100% - 42px);
+    height: calc(100% - 55px);
     resize: none;
     border: solid 1px #ccc;
     border-top: none;

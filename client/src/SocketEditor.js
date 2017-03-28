@@ -5,12 +5,14 @@
 import React, {Component} from 'react';
 import AceEditor from 'react-ace';
 import ace from 'brace';
-const { Range } = ace.acequire('ace/range');
+const {Range} = ace.acequire('ace/range');
 import ReactQuill from 'react-quill';
 import MultiCursor from './multi-cursor.js';
+import Select from 'react-select';
 
 import 'react-quill/dist/quill.snow.css';
 import './style/SocketEditor.css';
+import 'react-select/dist/react-select.css'
 
 const io = require('socket.io-client');
 const jsDiff = require('diff');
@@ -23,7 +25,7 @@ class SocketEditor extends Component {
     {
         super(props);
         this.oldText = '';
-        this.state = { cursors: [] };
+        this.state = {cursors: [], select: ''};
         this.cursors = {};
         this.selections = {};
         this.users = {};
@@ -40,7 +42,7 @@ class SocketEditor extends Component {
 
     onConnect = () =>
     {
-        this.socket.emit('auth', { session: this.props.session, name: this.props.username, mode: this.props.mode });
+        this.socket.emit('auth', {session: this.props.session, name: this.props.username, mode: this.props.mode});
         this.socket.on('authResponse', (msg) => this.onAuthed(msg));
         this.socket.on('userlist', (msg) => this.onUserlist(msg));
         this.socket.on('op', (op) => this.onOp(op));
@@ -91,8 +93,8 @@ class SocketEditor extends Component {
         {
             if (msg[i] !== this.props.username && !this.users.hasOwnProperty(msg[i]))
             {
-                let colorData = randomColor({ luminosity: 'bright', format: 'rgbArray' });
-                this.users[msg[i]] = { r: colorData[0], g: colorData[1], b: colorData[2] };
+                let colorData = randomColor({luminosity: 'bright', format: 'rgbArray'});
+                this.users[msg[i]] = {r: colorData[0], g: colorData[1], b: colorData[2]};
             }
         }
 
@@ -141,7 +143,7 @@ class SocketEditor extends Component {
     {
         if (source === 'user')
         {
-            this.socket.emit('op', { type: 'delta', delta });
+            this.socket.emit('op', {type: 'delta', delta});
         }
     };
 
@@ -149,7 +151,7 @@ class SocketEditor extends Component {
     {
         if (source === 'user')
         {
-            this.socket.emit('op', { type: 'cursor', user: this.props.username, position: range.index })
+            this.socket.emit('op', {type: 'cursor', user: this.props.username, position: range.index})
         }
     };
 
@@ -321,7 +323,7 @@ class SocketEditor extends Component {
         }
         else if (this.quill)
         {
-            this.socket.emit('op', { type: 'delta', delta: this.quill.getContents() });
+            this.socket.emit('op', {type: 'delta', delta: this.quill.getContents()});
         }
     };
 
@@ -342,6 +344,11 @@ class SocketEditor extends Component {
         }
     };
 
+    onSelectChange = (value) =>
+    {
+        this.setState({select: value});
+    };
+
     render()
     {
         let editor;
@@ -350,6 +357,15 @@ class SocketEditor extends Component {
         {
             editor = <div className="SocketEditor">
                 <div className="SocketEditor-toolbar">
+                    <div>
+                        <p className="SocketEditor-toolbar-label">Language:</p>
+                        <Select className="SocketEditor-select"
+                                value={this.state.select}
+                                name="form-field-name"
+                                options={[{name: 'one', label: 'one'}, {name: 'two', label: 'two'}]}
+                                onChange={this.onSelectChange}
+                        />
+                    </div>
 
                 </div>
                 <AceEditor
@@ -372,16 +388,16 @@ class SocketEditor extends Component {
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],       // toggled buttons
                     ['blockquote', 'code-block'],                    // blocks
-                    [{ 'header': 1 }, { 'header': 2 }],              // custom button values
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],    // lists
-                    [{ 'script': 'sub' }, { 'script': 'super' }],     // superscript/subscript
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],         // outdent/indent
-                    [{ 'direction': 'rtl' }],                        // text direction
-                    [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],       // header dropdown
-                    [{ 'color': [] }, { 'background': [] }],         // dropdown with defaults
-                    [{ 'font': [] }],                                // font family
-                    [{ 'align': [] }],                               // text align
+                    [{'header': 1}, {'header': 2}],              // custom button values
+                    [{'list': 'ordered'}, {'list': 'bullet'}],    // lists
+                    [{'script': 'sub'}, {'script': 'super'}],     // superscript/subscript
+                    [{'indent': '-1'}, {'indent': '+1'}],         // outdent/indent
+                    [{'direction': 'rtl'}],                        // text direction
+                    [{'size': ['small', false, 'large', 'huge']}], // custom dropdown
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],       // header dropdown
+                    [{'color': []}, {'background': []}],         // dropdown with defaults
+                    [{'font': []}],                                // font family
+                    [{'align': []}],                               // text align
                     ['link', 'image', 'video'],
                     ['clean'],
                 ]
