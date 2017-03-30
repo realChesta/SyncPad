@@ -35,9 +35,9 @@ module.exports = class Session {
         console.log("onSnapshot");
         for (let i = 0; i < this.users.length; i++) {
             if (data.user === this.users[i].name) {
-                let content = {type: "set", content: data.content };
+                let content = {type: "set", content: data.content, mode: data.mode };
                 this.users[i].socket.emit('op', content);
-                console.log("snapshot sent")
+                console.log("snapshot sent");
                 break;
             }
         }

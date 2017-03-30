@@ -9,6 +9,7 @@ const {Range} = ace.acequire('ace/range');
 import ReactQuill from 'react-quill';
 import MultiCursor from './multi-cursor.js';
 import Select from 'react-select';
+import CodeModes from './code-modes.js';
 
 import 'react-quill/dist/quill.snow.css';
 import './style/SocketEditor.css';
@@ -25,7 +26,7 @@ class SocketEditor extends Component {
     {
         super(props);
         this.oldText = '';
-        this.state = {cursors: [], select: ''};
+        this.state = {cursors: [], select: {label: "Text", value: "text"}};
         this.cursors = {};
         this.selections = {};
         this.users = {};
@@ -195,10 +196,13 @@ class SocketEditor extends Component {
 
     onOp = (op) =>
     {
+        console.log('op', op);
         if (this.ace)
         {
             // let pos = this.ace.getCursorPosition();
             let selection = this.ace.getSelectionRange();
+            let selectionStart = this.ace.session.doc.positionToIndex(selection.start);
+            let selectionEnd = this.ace.session.doc.positionToIndex(selection.end);
             let cancelCursor = false;
 
             switch (op.type)
@@ -206,12 +210,20 @@ class SocketEditor extends Component {
                 case 'set':
                 {
                     this.ace.setValue(op.content);
+                    this.setState({select: op.mode});
                 }
                     break;
 
                 case 'add':
                 {
                     this.ace.session.insert(op.position, op.content);
+
+                    let index = this.ace.session.doc.positionToIndex(op.position);
+
+                    if (index <= selectionStart)
+                        selectionStart += op.content.length;
+                    if (index <= selectionEnd)
+                        selectionEnd += op.content.length;
                 }
                     break;
 
@@ -221,6 +233,11 @@ class SocketEditor extends Component {
                     let newPos = this.ace.session.doc.indexToPosition(index);
                     let range = new Range(op.position.row, op.position.column, newPos.row, newPos.column);
                     this.ace.session.remove(range);
+
+                    if ((index + op.length) <= selectionStart)
+                        selectionStart -= op.length;
+                    if ((index + op.length <= selectionEnd))
+                        selectionEnd -= op.length;
                 }
                     break;
 
@@ -263,10 +280,23 @@ class SocketEditor extends Component {
                     }
                 }
                     break;
+
+
+                case 'mode':
+                {
+                    this.setState({select: op.mode});
+                }
+                    break;
             }
 
-            if (this.ace && !cancelCursor)
+            if (!cancelCursor)
+            {
+                let start = this.ace.session.doc.indexToPosition(selectionStart);
+                let end = this.ace.session.doc.indexToPosition(selectionEnd);
+
+                selection = new Range(start.row, start.column, end.row, end.column);
                 this.ace.selection.setRange(selection);
+            }
             // this.ace.selection.moveTo(pos.row, pos.column);
         }
         else if (this.quill)
@@ -318,7 +348,8 @@ class SocketEditor extends Component {
             this.socket.emit('snapshot',
                 {
                     content: this.ace.getValue(),
-                    user: user
+                    user: user,
+                    mode: this.state.select
                 });
         }
         else if (this.quill)
@@ -347,6 +378,7 @@ class SocketEditor extends Component {
     onSelectChange = (value) =>
     {
         this.setState({select: value});
+        this.socket.emit('op', {type: 'mode', mode: value});
     };
 
     render()
@@ -362,8 +394,9 @@ class SocketEditor extends Component {
                         <Select className="SocketEditor-select"
                                 value={this.state.select}
                                 name="form-field-name"
-                                options={[{name: 'one', label: 'one'}, {name: 'two', label: 'two'}]}
+                                options={CodeModes.getModeValues()}
                                 onChange={this.onSelectChange}
+                                clearable={false}
                         />
                     </div>
 
@@ -371,15 +404,20 @@ class SocketEditor extends Component {
                 <AceEditor
                     name="ace-editor"
                     width="100%"
-                    height="calc(100% - 42px)"
+                    height="calc(100% - 55spx)"
                     showPrintMargin={false}
                     focus={true}
                     className="SocketEditor-textbox"
                     onLoad={this.onLoad}
                     onChange={this.onChange}
                     value={this.oldText}
+                    mode={this.state.select.value}
+                    enableBasicAutocompletion={true}
+                    enableLiveAutocompletion={true}
                 />
             </div>;
+
+            console.log("select: ", this.state.select);
         }
         else if (this.props.mode === 'rtf')
         {

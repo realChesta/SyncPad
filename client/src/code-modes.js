@@ -30,5 +30,35 @@ import 'brace/mode/text';
 
 function getModeValues()
 {
-
+    return [
+        {value: "c_cpp", label: "C/C++"},
+        {value: "coffee", label: "CoffeeScript"},
+        {value: "csharp", label: "C#"},
+        {value: "css", label: "CSS"},
+        {value: "html", label: "HTML"},
+        {value: "java", label: "Java"},
+        {value: "javascript", label: "JavaScript"},
+        {value: "json", label: "JSON"},
+        {value: "jsx", label: "JSX"},
+        {value: "latex", label: "LaTeX"},
+        {value: "lua", label: "Lua"},
+        {value: "markdown", label: "Markdown"},
+        {value: "objectivec", label: "Objective C"},
+        {value: "php", label: "PHP"},
+        {value: "python", label: "Python"},
+        {value: "sass", label: "SASS"},
+        {value: "scss", label: "SCSS"},
+        {value: "sql", label: "SQL"},
+        {value: "swift", label: "Swift"},
+        {value: "tex", label: "TeX"},
+        {value: "typescript", label: "TypeScript"},
+        {value: "xml", label: "XML"},
+        {value: "yaml", label: "YAML"},
+        {value: "plain_text", label: "Plain Text"},
+        {value: "text", label: "Text"}
+    ];
 }
+
+module.exports = {
+    getModeValues: getModeValues
+};
