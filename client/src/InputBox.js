@@ -56,7 +56,7 @@ class InputBox extends Component {
                     </div>
                     <div className="IB-body">
                         <p className="IB-body-text">{this.props.text}</p>
-                        <input onChange={this.handleChange} onKeyUp={this.handleKeyUp} className="IB-body-input" ref={(input) => { this.inputBox = input; }}/>
+                        <input onChange={this.handleChange} onKeyUp={this.handleKeyUp} className="IB-body-input" value={this.props.preInput} ref={(input) => { this.inputBox = input; }}/>
                         <button disabled={!this.state.sessionName} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
                     </div>
             </div>

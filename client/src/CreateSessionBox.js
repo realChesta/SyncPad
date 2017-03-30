@@ -68,7 +68,7 @@ class CreateSessionBox extends Component {
                 </div>
                 <div className="IB-body">
                     <p className="IB-body-text">{this.props.userText}</p>
-                    <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} className="IB-body-input"
+                    <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} value={this.props.preUser} className="IB-body-input"
                            ref={(input) =>
                            {
                                this.userInput = input;

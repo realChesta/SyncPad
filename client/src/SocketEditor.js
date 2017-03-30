@@ -404,7 +404,7 @@ class SocketEditor extends Component {
                 <AceEditor
                     name="ace-editor"
                     width="100%"
-                    height="calc(100% - 55spx)"
+                    height="calc(100% - 55px)"
                     showPrintMargin={false}
                     focus={true}
                     className="SocketEditor-textbox"

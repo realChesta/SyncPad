@@ -9,6 +9,7 @@ import FadeTransition from './FadeTransition.js';
 import InputBox from './InputBox.js';
 import ErrorBox from './ErrorBox.js';
 import CreateSessionBox from './CreateSessionBox.js';
+import Cookies from 'react-cookie';
 
 class LandingApp extends Component {
 
@@ -29,29 +30,39 @@ class LandingApp extends Component {
 
     handleJoin = (sname, smode) =>
     {
-        this.setState({input: true, sname: sname, smode: smode});
+        this.setState({ input: true, sname: sname, smode: smode });
     };
 
     handleDone = (user) =>
     {
-        this.setState({input: false});
+        this.setState({ input: false });
         if (user)
         {
+            let d = new Date();
+            let days = 7;
+            d.setDate(d.getDate() + days);
+            Cookies.save('lastUser', user, { path: '/', expires: d });
+
             this.props.joinHandler(user, this.state.sname, this.state.smode);
         }
     };
 
     handleCreate = (e) =>
     {
-        this.setState({create: true});
+        this.setState({ create: true });
     };
 
     handleCreateDone = (user, session, mode) =>
     {
-        this.setState({create: false});
+        this.setState({ create: false });
 
         if (user && session)
         {
+            let d = new Date();
+            let days = 7;
+            d.setDate(d.getDate() + days);
+            Cookies.save('lastUser', user, { path: '/', expires: d });
+
             this.props.joinHandler(user, session, mode)
         }
     };
@@ -62,31 +73,30 @@ class LandingApp extends Component {
 
         if (this.state.create)
         {
+            let preUser = Cookies.load('lastUser');
+
             comp =
                 <CreateSessionBox
                     key="createBox"
                     title="Create Session"
                     userText="Choose a username under which you will appear for others:"
                     sessionText="Enter a session name:"
-                    selectText="Choose a mode for your session:"
-                    selectOptions={[
-                        {value: 'js', label: "JavaScript"},
-                        {value: 'rt', label: "Rich Text"},
-                        {value: 'c#', label: "C#"},
-                        {value: 'krek', label: "Krekmode"},
-                    ]}
                     action="Create"
+                    preUser={preUser}
                     onDone={this.handleCreateDone}
                 />
         }
         else if (this.state.input)
         {
+            let preUser = Cookies.load('lastUser');
+
             comp =
                 <InputBox
                     key="inputBox"
                     title="Join session"
                     text={"Choose a username under which you will appear for others in " + this.state.sname + ":"}
                     action="Join"
+                    preInput={preUser}
                     onDone={this.handleDone}
                 />;
         }
