@@ -320,9 +320,9 @@ class SocketEditor extends Component {
 
     };
 
-    getRGBA(color)
+    getRGBA(color, opacity = 0.8)
     {
-        return "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 0.8)";
+        return "rgba(" + color.r + ", " + color.g + ", " + color.b + ", " + opacity + ")";
     }
 
     updateRemoteCursor = (html, markerLayer, config, pos, color) =>
@@ -333,7 +333,7 @@ class SocketEditor extends Component {
 
     updateRemoteSelection = (html, markerLayer, config, range, color) =>
     {
-        let style = "position: absolute; background-color: " + this.getRGBA(color) + ";";
+        let style = "position: absolute; background-color: " + this.getRGBA(color, 0.25) + ";";
 
         if (range.start.row !== range.end.row)
             markerLayer.drawMultiLineMarker(html, range, '', config, style);
@@ -390,7 +390,7 @@ class SocketEditor extends Component {
             editor = <div className="SocketEditor">
                 <div className="SocketEditor-toolbar">
                     <div>
-                        <p className="SocketEditor-toolbar-label">Language:</p>
+                        <p className="SocketEditor-toolbar-label">Mode:</p>
                         <Select className="SocketEditor-select"
                                 value={this.state.select}
                                 name="form-field-name"
