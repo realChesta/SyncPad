@@ -25,9 +25,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/', function (req, res) {
-    res.send("Error 404");
-});
+// app.get('/', function (req, res) {
+//     res.send("Error 404");
+// });
+
+app.use(express.static('build'));
+
 app.get('/gitGud', function (req, res) {
     res.send("EASTERGGS");
 });
