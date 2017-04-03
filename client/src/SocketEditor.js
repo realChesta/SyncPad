@@ -83,7 +83,7 @@ class SocketEditor extends Component {
             }
         }
 
-        console.log('users: ' + JSON.stringify(msg));
+        //console.log('users: ' + JSON.stringify(msg));
 
         for (let name in this.users)
         {
@@ -196,7 +196,7 @@ class SocketEditor extends Component {
 
     onOp = (op) =>
     {
-        console.log('op', op);
+        //console.log('op', op);
         if (this.ace)
         {
             // let pos = this.ace.getCursorPosition();
@@ -417,7 +417,7 @@ class SocketEditor extends Component {
                 />
             </div>;
 
-            console.log("select: ", this.state.select);
+            //console.log("select: ", this.state.select);
         }
         else if (this.props.mode === 'rtf')
         {

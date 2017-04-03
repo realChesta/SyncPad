@@ -47,7 +47,7 @@ class EditingApp extends Component {
 
     onUserlist = (users) =>
     {
-        console.log("userlist:", users);
+        //console.log("userlist:", users);
         this.setState({users: users});
     };
 

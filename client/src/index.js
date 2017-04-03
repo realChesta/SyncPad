@@ -31,10 +31,10 @@ function refreshData()
     })
         .then(function (body)
         {
-            console.log(body);
+            //console.log(body);
             let data = JSON.parse(body);
 
-            console.log("session list", body);
+            //console.log("session list", body);
 
             ReactDOM.render(
                 <SwipeTransition>
