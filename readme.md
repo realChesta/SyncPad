@@ -4,7 +4,7 @@ SyncPad is an online collaborative editor capable of editing in two modes:
 * Code mode: syntax-highlighted code editor with code folding, autocomplete and more.
 
 ## Getting things to work
-To run the server, navigate to `build` and run `main.js` with node.js.
+To run the server, navigate to the `build` directory and run `main.js` with node.js.
 
 ## Live demo
 A live demo of SyncPad can be found under http://syncpad.herokuapp.com/.
