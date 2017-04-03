@@ -12,32 +12,6 @@ const rp = require('request-promise');
 //TODO: prevent user from accidentally leaving editing page
 //TODO: fix too long usernames clipping out of bounds
 
-var data = [
-    {
-        name: "Krek",
-        users: 5,
-        id: "test"
-    },
-    {
-        name: "Test",
-        users: 9,
-        id: "test2"
-    },
-    {
-        name: "Topkek",
-        users: 16,
-        id: "test3"
-    }
-];
-
-var data2 = [
-    {
-        name: "Krek",
-        users: 5,
-        id: "test"
-    }
-];
-
 function refreshData()
 {
     ReactDOM.render(
@@ -52,7 +26,7 @@ function refreshData()
     );
 
     rp({
-        url: 'http://localhost/getSessions',
+        url: location.href + 'getSessions',
         timeout: 5000
     })
         .then(function (body)

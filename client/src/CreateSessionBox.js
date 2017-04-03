@@ -13,7 +13,7 @@ class CreateSessionBox extends Component {
     {
         super(props);
 
-        this.state = {username: '', sessionName: '', mode: 'rtf'};
+        this.state = {username: this.props.preUser, sessionName: '', mode: 'rtf'};
     }
 
     handleUserChange = (e) =>
@@ -68,7 +68,7 @@ class CreateSessionBox extends Component {
                 </div>
                 <div className="IB-body">
                     <p className="IB-body-text">{this.props.userText}</p>
-                    <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} value={this.props.preUser} className="IB-body-input"
+                    <input onChange={this.handleUserChange} onKeyUp={this.handleKeyUp} value={this.state.username} className="IB-body-input"
                            ref={(input) =>
                            {
                                this.userInput = input;

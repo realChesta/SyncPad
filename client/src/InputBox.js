@@ -11,19 +11,19 @@ class InputBox extends Component {
     {
         super(props);
 
-        this.state = { sessionName: ''};
+        this.state = { input: this.props.preUser};
     }
 
     handleChange = (e) =>
     {
-        this.setState({ sessionName: e.target.value });
+        this.setState({ input: e.target.value });
     };
 
     handleKeyUp = (e) =>
     {
-        if ((e.keyCode === 13) && this.state.sessionName)
+        if ((e.keyCode === 13) && this.state.input)
         {
-            this.props.onDone(this.state.sessionName);
+            this.props.onDone(this.state.input);
         }
         else if (e.keyCode === 27)
         {
@@ -38,7 +38,7 @@ class InputBox extends Component {
 
     handleConfirm = (e) =>
     {
-        this.props.onDone(this.state.sessionName)
+        this.props.onDone(this.state.input)
     };
 
     componentDidMount()
@@ -56,8 +56,8 @@ class InputBox extends Component {
                     </div>
                     <div className="IB-body">
                         <p className="IB-body-text">{this.props.text}</p>
-                        <input onChange={this.handleChange} onKeyUp={this.handleKeyUp} className="IB-body-input" value={this.props.preInput} ref={(input) => { this.inputBox = input; }}/>
-                        <button disabled={!this.state.sessionName} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
+                        <input onChange={this.handleChange} onKeyUp={this.handleKeyUp} className="IB-body-input" value={this.state.input} ref={(input) => { this.inputBox = input; }}/>
+                        <button disabled={!this.state.input} onClick={this.handleConfirm} className="g-button IB-acceptButton">{this.props.action}</button>
                     </div>
             </div>
         );
